@@ -21,12 +21,6 @@ class HomePage extends StatelessWidget {
             ),
           ],
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.chat_bubble_outline, color: AppColors.text),
-            onPressed: () {},
-          ),
-        ],
       ),
       body: Container(
         color: AppColors.background,
@@ -436,16 +430,13 @@ class HomePage extends StatelessWidget {
       type: BottomNavigationBarType.fixed,
       items: const [
         BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+        BottomNavigationBarItem(icon: Icon(Icons.task_alt), label: 'Checklist'),
+        BottomNavigationBarItem(icon: Icon(Icons.event), label: 'Events'),
         BottomNavigationBarItem(
-          icon: Icon(Icons.checklist),
-          label: 'Checklist',
-        ),
-        BottomNavigationBarItem(icon: Icon(Icons.people), label: 'Guests'),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.attach_money),
+          icon: Icon(Icons.account_balance_wallet),
           label: 'Budget',
         ),
-        BottomNavigationBarItem(icon: Icon(Icons.menu), label: 'Menu'),
+        BottomNavigationBarItem(icon: Icon(Icons.grid_view), label: 'Menu'),
       ],
       currentIndex: 0,
       selectedItemColor: AppColors.primary,
