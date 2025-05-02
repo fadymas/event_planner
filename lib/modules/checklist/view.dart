@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:event_planner/checklist/create.dart';
+import 'package:event_planner/modules/checklist/create.dart';
 
 class ChecklistPage extends StatefulWidget {
   const ChecklistPage({Key? key}) : super(key: key);
@@ -26,23 +26,17 @@ class _ChecklistPageState extends State<ChecklistPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-     
-      body: ListView.builder(
-        itemCount: checklistItems.length,
-        itemBuilder: (context, index) {
-          final item = checklistItems[index];
-          return ListTile(
-            title: Text(item['eventName'] ?? ''),
-            subtitle: Text(item['note'] ?? ''),
-            trailing: Text(item['date'] ?? ''),
-          );
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _navigateToCreatePage,
-        child: const Icon(Icons.add),
-      ),
+    return ListView.builder(
+      padding: const EdgeInsets.all(8),
+      itemCount: checklistItems.length,
+      itemBuilder: (context, index) {
+        final item = checklistItems[index];
+        return ListTile(
+          title: Text(item['eventName'] ?? ''),
+          subtitle: Text(item['note'] ?? ''),
+          trailing: Text(item['date'] ?? ''),
+        );
+      },
     );
   }
 }

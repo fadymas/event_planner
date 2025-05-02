@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../shared/styles/colors.dart';
-import '../shared/styles/styles.dart';
+import '../../shared/styles/colors.dart';
+import '../../shared/styles/styles.dart';
 
 class CreateEventPage extends StatefulWidget {
   const CreateEventPage({Key? key}) : super(key: key);

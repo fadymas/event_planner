@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import '../shared/styles/colors.dart';
-import '../shared/styles/styles.dart';
-import 'create_event_page.dart';
+import '../../shared/styles/colors.dart';
+import '../../shared/styles/styles.dart';
 
 class EventsPage extends StatelessWidget {
   const EventsPage({Key? key}) : super(key: key);
@@ -9,7 +8,7 @@ class EventsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: const EdgeInsets.all(AppStyles.defaultPadding),
+      padding: const EdgeInsets.all(AppStyles.smallPadding),
       children: [
         _buildEventCard(
           context,
@@ -33,31 +32,32 @@ class EventsPage extends StatelessWidget {
     required Color iconBg,
   }) {
     return Container(
-      margin: const EdgeInsets.only(bottom: AppStyles.defaultPadding),
+      margin: const EdgeInsets.only(bottom: AppStyles.smallPadding),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(AppStyles.borderRadius),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.grey,
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
+        borderRadius: BorderRadius.circular(AppStyles.borderRadius - 4),
+        boxShadow: [BoxShadow(color: AppColors.grey, blurRadius: 8)],
       ),
       child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
         leading: CircleAvatar(
           backgroundColor: iconBg,
-          radius: AppStyles.iconSize,
+          radius: AppStyles.iconSize - 6,
           child: Icon(
             icon,
             color: AppColors.white,
-            size: AppStyles.largeIconSize,
+            size: AppStyles.largeIconSize - 6,
           ),
         ),
-        title: Text(title, style: AppStyles.titleStyle),
-        subtitle: Text(subtitle, style: AppStyles.subtitleStyle),
-        trailing: Text(date, style: AppStyles.subtitleStyle),
+        title: Text(title, style: AppStyles.titleStyle.copyWith(fontSize: 13)),
+        subtitle: Text(
+          subtitle,
+          style: AppStyles.subtitleStyle.copyWith(fontSize: 11),
+        ),
+        trailing: Text(
+          date,
+          style: AppStyles.subtitleStyle.copyWith(fontSize: 11),
+        ),
         onTap: () {},
       ),
     );
