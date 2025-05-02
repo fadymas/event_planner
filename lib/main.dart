@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'modules/home_page.dart';
+import 'layout/main_layout.dart';
 import 'shared/network/remote/firebase_options.dart';
 import 'shared/styles/colors.dart';
 
@@ -20,14 +20,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         appBarTheme: const AppBarTheme(
           backgroundColor: AppColors.white,
-          shadowColor: Colors.transparent,
           titleTextStyle: TextStyle(fontSize: 20.0),
-          shape: Border(
-            bottom: BorderSide(color: AppColors.lightGrey, width: 1.5),
-          ),
+          shape: Border(bottom: BorderSide(color: AppColors.grey, width: 1.5)),
         ),
       ),
-      home: const HomePage(),
+      home: const MainScaffold(),
       debugShowCheckedModeBanner: false,
     );
   }
