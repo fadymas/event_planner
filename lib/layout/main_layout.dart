@@ -1,3 +1,4 @@
+import 'package:event_planner/checklist/view.dart';
 import 'package:flutter/material.dart';
 import '../shared/styles/colors.dart';
 import '../modules/events_page.dart';
@@ -16,7 +17,7 @@ class _MainScaffoldState extends State<MainScaffold> {
 
   final List<Widget> _pages = [
     const HomePage(),
-    const Center(child: Text('Checklist Page')), // Placeholder for Checklist
+    const ChecklistPage(), // Placeholder for Checklist
     const EventsPage(),
     const Center(child: Text('Budget Page')), // Placeholder for Budget
     const Center(child: Text('Menu Page')), // Placeholder for Menu
