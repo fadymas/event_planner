@@ -5,13 +5,13 @@ class ChecklistPage extends StatefulWidget {
   const ChecklistPage({Key? key}) : super(key: key);
 
   @override
-  State<ChecklistPage> createState() => _ChecklistPageState();
+  State<ChecklistPage> createState() => ChecklistPageState();
 }
 
-class _ChecklistPageState extends State<ChecklistPage> {
+class ChecklistPageState extends State<ChecklistPage> {
   List<Map<String, String>> checklistItems = [];
 
-  void _navigateToCreatePage() async {
+  void navigateToCreatePage() async {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const ChecklistCreatePage()),
@@ -19,7 +19,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
 
     if (result != null && result is Map<String, String>) {
       setState(() {
-        checklistItems.add(result);
+        this.checklistItems.add(result);
       });
     }
   }

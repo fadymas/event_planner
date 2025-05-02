@@ -1,5 +1,4 @@
 import 'package:event_planner/modules/Budget/budget_page.dart';
-import 'package:event_planner/modules/checklist/create.dart';
 import 'package:event_planner/modules/checklist/view.dart';
 import 'package:flutter/material.dart';
 import '../shared/styles/colors.dart';
@@ -16,7 +15,6 @@ class MainScaffold extends StatefulWidget {
 
 class _MainScaffoldState extends State<MainScaffold> {
   int _selectedIndex = 0;
-
   final List<Widget> _pages = [
     const HomePage(),
     const ChecklistPage(), // Placeholder for Checklist
@@ -24,6 +22,8 @@ class _MainScaffoldState extends State<MainScaffold> {
     const BudgetPage(), // Placeholder for Budget
     const Center(child: Text('Menu Page')), // Placeholder for Menu
   ];
+  final GlobalKey<ChecklistPageState> _checklistKey =
+      GlobalKey<ChecklistPageState>();
 
   String get _title {
     switch (_selectedIndex) {
@@ -87,11 +87,7 @@ class _MainScaffoldState extends State<MainScaffold> {
                 onPressed: () {
                   switch (_selectedIndex) {
                     case 1: // Checklist
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => const ChecklistCreatePage(),
-                        ),
-                      );
+                      _checklistKey.currentState?.navigateToCreatePage();
                       break;
                     case 2: // Events
                       Navigator.of(context).push(
