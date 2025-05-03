@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../shared/styles/colors.dart';
 import '../../shared/styles/styles.dart';
+import '../../shared/components/components.dart';
 
 class BudgetPage extends StatefulWidget {
   const BudgetPage({Key? key}) : super(key: key);
@@ -29,54 +30,14 @@ class _BudgetPageState extends State<BudgetPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 4),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: List.generate(_categories.length, (index) {
-              final selected = _selectedCategory == index;
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 2.0),
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _selectedCategory = index;
-                    });
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 6,
-                    ),
-                    decoration: BoxDecoration(
-                      gradient:
-                          selected
-                              ? const LinearGradient(
-                                colors: [
-                                  AppColors.primary,
-                                  AppColors.primaryDark,
-                                ],
-                              )
-                              : null,
-                      color: selected ? null : AppColors.white,
-                      borderRadius: BorderRadius.circular(
-                        AppStyles.smallBorderRadius - 2,
-                      ),
-                      border:
-                          selected ? null : Border.all(color: AppColors.grey),
-                    ),
-                    child: Text(
-                      _categories[index],
-                      style: TextStyle(
-                        color: selected ? AppColors.white : AppColors.text,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            }),
-          ),
+        scrollSelectorRow(
+          items: _categories,
+          selectedIndex: _selectedCategory,
+          onSelected: (index) {
+            setState(() {
+              _selectedCategory = index;
+            });
+          },
         ),
         const SizedBox(height: 8),
 

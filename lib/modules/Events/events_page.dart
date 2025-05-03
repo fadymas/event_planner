@@ -40,13 +40,17 @@ class EventsPage extends StatelessWidget {
       ),
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-        leading: CircleAvatar(
-          backgroundColor: iconBg,
-          radius: AppStyles.iconSize - 6,
-          child: Icon(
-            icon,
-            color: AppColors.white,
-            size: AppStyles.largeIconSize - 6,
+        leading: ClipOval(
+          child: Container(
+            color: iconBg,
+            width: AppStyles.iconSize * 2,
+            height: AppStyles.iconSize * 2,
+            alignment: Alignment.center,
+            child: Icon(
+              icon,
+              color: AppColors.white,
+              size: AppStyles.largeIconSize,
+            ),
           ),
         ),
         title: Text(title, style: AppStyles.titleStyle.copyWith(fontSize: 13)),

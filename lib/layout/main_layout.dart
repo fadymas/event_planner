@@ -1,5 +1,6 @@
 import 'package:event_planner/modules/Budget/budget_page.dart';
 import 'package:event_planner/modules/Budget/create_budget_page.dart';
+import 'package:event_planner/modules/calendar_page.dart';
 import 'package:event_planner/modules/checklist/view.dart';
 import 'package:flutter/material.dart';
 import '../shared/styles/colors.dart';
@@ -16,15 +17,16 @@ class MainScaffold extends StatefulWidget {
 
 class _MainScaffoldState extends State<MainScaffold> {
   int _selectedIndex = 0;
-  final List<Widget> _pages = [
-    const HomePage(),
-    const ChecklistPage(), // Placeholder for Checklist
-    const EventsPage(),
-    const BudgetPage(), // Placeholder for Budget
-    const Center(child: Text('Menu Page')), // Placeholder for Menu
-  ];
   final GlobalKey<ChecklistPageState> _checklistKey =
       GlobalKey<ChecklistPageState>();
+
+  List<Widget> get _pages => [
+    const HomePage(),
+    ChecklistPage(key: _checklistKey),  
+    const EventsPage(),
+    const BudgetPage(), 
+    const Calendar(),
+  ];
 
   String get _title {
     switch (_selectedIndex) {
@@ -37,7 +39,7 @@ class _MainScaffoldState extends State<MainScaffold> {
       case 3:
         return 'Budget';
       case 4:
-        return 'Menu';
+        return 'Calendar';
       default:
         return '';
     }
@@ -54,7 +56,7 @@ class _MainScaffoldState extends State<MainScaffold> {
       case 3:
         return Icons.account_balance_wallet_outlined;
       case 4:
-        return Icons.grid_view;
+        return Icons.access_time;
       default:
         return Icons.home_outlined;
     }
@@ -87,18 +89,18 @@ class _MainScaffoldState extends State<MainScaffold> {
               ? FloatingActionButton(
                 onPressed: () {
                   switch (_selectedIndex) {
-                    case 1: // Checklist
+                    case 1: 
                       _checklistKey.currentState?.navigateToCreatePage();
                       break;
-                    case 2: // Events
+                    case 2: 
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => const CreateEventPage(),
                         ),
                       );
                       break;
-                    case 3: // Budget
-                        Navigator.of(context).push(
+                    case 3: 
+                      Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => const AddCostScreen(),
                         ),
@@ -130,7 +132,10 @@ class _MainScaffoldState extends State<MainScaffold> {
             icon: Icon(Icons.account_balance_wallet),
             label: 'Budget',
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.grid_view), label: 'Menu'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.access_time_filled),
+            label: 'Calendar',
+          ),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: AppColors.primary,

@@ -49,10 +49,10 @@ class _SelectCategoryPageState extends State<SelectCategoryPage> {
           for (int index = 0; index < categories.length; index++) ...[
             GestureDetector(
               onTap: () {
-                setState(() {
-                  selectedIndex = index;
-                });
-                Navigator.pop(context, categories[index]["name"]);
+                Navigator.pop(context, [
+                  categories[index]["name"],
+                  categories[index]["icon"],
+                ]);
               },
               child: Container(
                 margin: EdgeInsets.only(bottom: AppStyles.smallPadding),
