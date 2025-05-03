@@ -1,4 +1,5 @@
 import 'package:event_planner/modules/Budget/budget_page.dart';
+import 'package:event_planner/modules/Budget/create_budget_page.dart';
 import 'package:event_planner/modules/checklist/view.dart';
 import 'package:flutter/material.dart';
 import '../shared/styles/colors.dart';
@@ -97,9 +98,11 @@ class _MainScaffoldState extends State<MainScaffold> {
                       );
                       break;
                     case 3: // Budget
-                      // TODO: Add new expense
-                      print('Add new expense');
-                      break;
+                        Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const AddCostScreen(),
+                        ),
+                      );
                   }
                 },
                 backgroundColor: AppColors.primary,

@@ -1,0 +1,97 @@
+import 'package:flutter/material.dart';
+import '../shared/styles/colors.dart';
+
+class SelectCategoryPage extends StatefulWidget {
+  @override
+  _SelectCategoryPageState createState() => _SelectCategoryPageState();
+}
+
+class _SelectCategoryPageState extends State<SelectCategoryPage> {
+  final List<Map<String, dynamic>> categories = [
+    {"name": "Unassigned category", "icon": Icons.scatter_plot},
+    {"name": "Attire & Accessories", "icon": Icons.checkroom},
+    {"name": "Health & Beauty", "icon": Icons.spa},
+    {"name": "Music & Show", "icon": Icons.music_note},
+    {"name": "Flowers & Decor", "icon": Icons.local_florist},
+    {"name": "Photo & Video", "icon": Icons.photo_camera},
+    {"name": "Accessories", "icon": Icons.emoji_events},
+    {"name": "Reception", "icon": Icons.room_service},
+    {"name": "Transportation", "icon": Icons.directions_car},
+    {"name": "Accommodation", "icon": Icons.home},
+  ];
+
+  int? selectedIndex = 1; // Default to "Attire & Accessories"
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.background,
+      appBar: AppBar(
+        backgroundColor: AppColors.white,
+        elevation: 0,
+        iconTheme: IconThemeData(color: AppColors.text),
+        title: Text(
+          'Category',
+          style: TextStyle(
+            color: AppColors.text,
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
+          ),
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: AppColors.text),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
+      body: ListView(
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 3),
+        children: [
+          for (int index = 0; index < categories.length; index++) ...[
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  selectedIndex = index;
+                });
+                Navigator.pop(context, categories[index]["name"]);
+              },
+              child: Container(
+                margin: EdgeInsets.only(bottom: 8),
+                decoration: BoxDecoration(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.circular(14),
+                  border:
+                      selectedIndex == index
+                          ? Border.all(color: AppColors.primary, width: 1.5)
+                          : null,
+                ),
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                child: Row(
+                  children: [
+                    Icon(
+                      categories[index]["icon"],
+                      color: AppColors.primaryDark,
+                      size: 26,
+                    ),
+                    SizedBox(width: 16),
+                    Expanded(
+                      child: Text(
+                        categories[index]["name"],
+                        style: TextStyle(
+                          color: AppColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    if (selectedIndex == index)
+                      Icon(Icons.check, color: AppColors.primary, size: 22),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
