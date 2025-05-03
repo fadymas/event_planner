@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../shared/styles/colors.dart';
 import '../shared/styles/styles.dart';
+import '../shared/components/components.dart';
 import 'Events/events_page.dart';
 
 class HomePage extends StatelessWidget {
@@ -123,36 +124,6 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildMenuItem(
-    IconData icon,
-    String label,
-    Color color,
-    void Function(String) onTap,
-  ) {
-    return GestureDetector(
-      onTap: () => onTap(label),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(AppStyles.smallPadding - 2),
-            decoration: BoxDecoration(
-              color: AppColors.primary,
-              borderRadius: BorderRadius.circular(AppStyles.borderRadius - 4),
-            ),
-            child: Icon(
-              icon,
-              color: AppColors.white,
-              size: AppStyles.iconSize - 4,
-            ),
-          ),
-          const SizedBox(height: AppStyles.smallPadding - 2),
-          Text(label, style: AppStyles.menuLabelStyle.copyWith(fontSize: 10)),
-        ],
-      ),
-    );
-  }
-
   Widget _buildMenuGrid(void Function(String) onTap) {
     return Container(
       margin: const EdgeInsets.only(bottom: AppStyles.smallPadding),
@@ -162,47 +133,28 @@ class HomePage extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(AppStyles.smallPadding),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.grid_view,
-                  size: AppStyles.smallIconSize - 2,
-                  color: AppColors.text,
-                ),
-                const SizedBox(width: AppStyles.smallPadding - 2),
-                Text(
-                  'MENU',
-                  style: AppStyles.titleStyle.copyWith(fontSize: 12),
-                ),
-              ],
-            ),
-          ),
+          sectionHeader(icon: Icons.grid_view, title: 'MENU'),
           const Divider(height: 1, color: AppColors.grey),
           Padding(
             padding: const EdgeInsets.all(AppStyles.smallPadding),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildMenuItem(
-                  Icons.checklist,
-                  'Checklist',
-                  AppColors.primary,
-                  onTap,
+                menuItem(
+                  icon: Icons.checklist,
+                  label: 'Checklist',
+                  onTap: () {},
                 ),
-                _buildMenuItem(Icons.event, 'Events', AppColors.primary, onTap),
-                _buildMenuItem(
-                  Icons.attach_money,
-                  'Budget',
-                  AppColors.primary,
-                  onTap,
+                menuItem(icon: Icons.event, label: 'Events', onTap: () => {}),
+                menuItem(
+                  icon: Icons.attach_money,
+                  label: 'Budget',
+                  onTap: () => {},
                 ),
-                _buildMenuItem(
-                  Icons.people_outline,
-                  'Helpers',
-                  AppColors.primary,
-                  onTap,
+                menuItem(
+                  icon: Icons.calendar_month,
+                  label: 'Calendar',
+                  onTap: () => {},
                 ),
               ],
             ),
@@ -222,31 +174,10 @@ class HomePage extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(AppStyles.smallPadding),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Icon(
-                      Icons.checklist_rtl,
-                      size: AppStyles.smallIconSize - 2,
-                      color: AppColors.text,
-                    ),
-                    const SizedBox(width: AppStyles.smallPadding - 2),
-                    Text(
-                      'CHECKLIST',
-                      style: AppStyles.titleStyle.copyWith(fontSize: 12),
-                    ),
-                  ],
-                ),
-                Text(
-                  'Summary >',
-                  style: AppStyles.subtitleStyle.copyWith(fontSize: 11),
-                ),
-              ],
-            ),
+          sectionHeader(
+            icon: Icons.checklist_rtl,
+            title: 'CHECKLIST',
+            onActionTap: () {},
           ),
           const Divider(height: 1, color: AppColors.grey),
           Container(
@@ -268,17 +199,7 @@ class HomePage extends StatelessWidget {
             ),
             child: Column(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(3),
-                  child: LinearProgressIndicator(
-                    value: 1,
-                    backgroundColor: AppColors.grey,
-                    valueColor: const AlwaysStoppedAnimation<Color>(
-                      AppColors.primary,
-                    ),
-                    minHeight: 6,
-                  ),
-                ),
+                progressBar(value: 1),
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     vertical: 8,
@@ -316,31 +237,10 @@ class HomePage extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(AppStyles.smallPadding),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Icon(
-                      Icons.account_balance_wallet_outlined,
-                      size: AppStyles.smallIconSize - 2,
-                      color: AppColors.text,
-                    ),
-                    const SizedBox(width: AppStyles.smallPadding - 2),
-                    Text(
-                      'BUDGET',
-                      style: AppStyles.titleStyle.copyWith(fontSize: 12),
-                    ),
-                  ],
-                ),
-                Text(
-                  'Balance >',
-                  style: AppStyles.subtitleStyle.copyWith(fontSize: 11),
-                ),
-              ],
-            ),
+          sectionHeader(
+            icon: Icons.account_balance_wallet_outlined,
+            title: 'BUDGET',
+            onActionTap: () {},
           ),
           const Divider(height: 1, color: AppColors.grey),
           Padding(

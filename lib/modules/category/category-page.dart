@@ -1,7 +1,8 @@
-import 'package:event_planner/modules/category/create_category_page.dart';
 import 'package:flutter/material.dart';
 import '../../shared/styles/colors.dart';
 import '../../shared/styles/styles.dart';
+import '../../shared/components/components.dart';
+import 'create_category_page.dart';
 
 class SelectCategoryPage extends StatefulWidget {
   const SelectCategoryPage({Key? key}) : super(key: key);
@@ -48,45 +49,49 @@ class _SelectCategoryPageState extends State<SelectCategoryPage> {
         ),
         children: [
           for (int index = 0; index < categories.length; index++) ...[
-            GestureDetector(
-              onTap: () {
-                Navigator.pop(context, [
-                  categories[index]["name"],
-                  categories[index]["icon"],
-                ]);
-              },
-              child: Container(
-                margin: EdgeInsets.only(bottom: AppStyles.smallPadding),
-                decoration: BoxDecoration(
-                  color: AppColors.white,
-                  borderRadius: BorderRadius.circular(AppStyles.borderRadius),
-                  border:
-                      selectedIndex == index
-                          ? Border.all(color: AppColors.primary, width: 1.5)
-                          : null,
-                ),
-                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                child: Row(
-                  children: [
-                    Icon(
-                      categories[index]["icon"],
-                      color: AppColors.primaryDark,
-                      size: AppStyles.iconSize,
-                    ),
-                    SizedBox(width: 16),
-                    Expanded(
-                      child: Text(
-                        categories[index]["name"],
-                        style: AppStyles.menuLabelStyle.copyWith(fontSize: 16),
-                      ),
-                    ),
-                    if (selectedIndex == index)
+            standardCard(
+              margin: EdgeInsets.only(bottom: AppStyles.smallPadding),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pop(context, [
+                    categories[index]["name"],
+                    categories[index]["icon"],
+                  ]);
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                  decoration: BoxDecoration(
+                    color: AppColors.white,
+                    borderRadius: BorderRadius.circular(AppStyles.borderRadius),
+                    border:
+                        selectedIndex == index
+                            ? Border.all(color: AppColors.primary, width: 1.5)
+                            : null,
+                  ),
+                  child: Row(
+                    children: [
                       Icon(
-                        Icons.check,
-                        color: AppColors.primary,
-                        size: AppStyles.iconSize - 2,
+                        categories[index]["icon"],
+                        color: AppColors.primaryDark,
+                        size: AppStyles.iconSize,
                       ),
-                  ],
+                      SizedBox(width: 16),
+                      Expanded(
+                        child: Text(
+                          categories[index]["name"],
+                          style: AppStyles.menuLabelStyle.copyWith(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                      if (selectedIndex == index)
+                        Icon(
+                          Icons.check,
+                          color: AppColors.primary,
+                          size: AppStyles.iconSize - 2,
+                        ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -95,6 +100,7 @@ class _SelectCategoryPageState extends State<SelectCategoryPage> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.primary,
+        shape: const CircleBorder(),
         child: const Icon(Icons.add, color: AppColors.white),
         onPressed: () async {
           final result = await Navigator.push(

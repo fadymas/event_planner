@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../layout/entry_form_layout.dart';
 import '../../shared/styles/colors.dart';
 import '../../shared/styles/styles.dart';
-import '../../modules/category-page.dart';
+import '../category/category-page.dart';
 
 class ChecklistCreatePage extends StatefulWidget {
   const ChecklistCreatePage({Key? key}) : super(key: key);
@@ -14,8 +14,8 @@ class ChecklistCreatePage extends StatefulWidget {
 class _ChecklistCreatePageState extends State<ChecklistCreatePage> {
   final _eventNameController = TextEditingController();
   final _noteController = TextEditingController();
-  String? _selectedCategory;
-  IconData? _selectedCategoryIcon;
+  String? _selectedCategory = 'Unassigned category';
+  IconData? _selectedCategoryIcon = Icons.scatter_plot;
   DateTime? _selectedDate;
 
   Future<void> _pickDate() async {

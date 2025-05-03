@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../category-page.dart';
+import '../category/category-page.dart';
 import '../../shared/styles/colors.dart';
 import '../../shared/styles/styles.dart';
 import '../../layout/entry_form_layout.dart';
@@ -13,6 +13,7 @@ class AddCostScreen extends StatefulWidget {
 
 class _AddCostScreenState extends State<AddCostScreen> {
   String? selectedCategory = 'Attire & Accessories';
+  IconData? selectedCategoryIcon = Icons.checkroom;
   final TextEditingController nameController = TextEditingController();
   final TextEditingController noteController = TextEditingController();
   final TextEditingController amountController = TextEditingController();
@@ -74,13 +75,14 @@ class _AddCostScreenState extends State<AddCostScreen> {
         SizedBox(height: AppStyles.smallPadding),
         GestureDetector(
           onTap: () async {
-            final result = await Navigator.push<String>(
+            final result = await Navigator.push(
               context,
               MaterialPageRoute(builder: (_) => SelectCategoryPage()),
             );
             if (result != null) {
               setState(() {
-                selectedCategory = result;
+                selectedCategory = result[0];
+                selectedCategoryIcon = result[1];
               });
             }
           },
@@ -97,7 +99,7 @@ class _AddCostScreenState extends State<AddCostScreen> {
             child: Row(
               children: [
                 Icon(
-                  Icons.checkroom,
+                  selectedCategoryIcon ?? Icons.checkroom,
                   color: AppColors.primaryDark,
                   size: AppStyles.iconSize - 2,
                 ),
@@ -106,7 +108,7 @@ class _AddCostScreenState extends State<AddCostScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Category',
+                      selectedCategory ?? '',
                       style: AppStyles.subtitleStyle.copyWith(fontSize: 11),
                     ),
                     Text(

@@ -40,29 +40,21 @@ class _BudgetPageState extends State<BudgetPage> {
           },
         ),
         const SizedBox(height: 8),
-
-        // Single hardcoded card
-        Container(
-          margin: const EdgeInsets.all(8),
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: AppColors.white,
-            borderRadius: BorderRadius.circular(AppStyles.borderRadius - 4),
-            boxShadow: [BoxShadow(color: AppColors.grey, blurRadius: 5)],
-          ),
+        standardCard(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              sectionHeader(
+                icon: Icons.account_balance_wallet_outlined,
+                title: 'BUDGET',
+                actionText: 'Balance >',
+                onActionTap: () {},
+              ),
+              const Divider(height: 1, color: AppColors.grey),
+              const SizedBox(height: 8),
               Text('Hhdhh', style: AppStyles.titleStyle.copyWith(fontSize: 13)),
               const SizedBox(height: 4),
-              LinearProgressIndicator(
-                value: 1, // paid / amount
-                backgroundColor: AppColors.grey.withOpacity(0.15),
-                valueColor: const AlwaysStoppedAnimation<Color>(
-                  AppColors.primary,
-                ),
-                minHeight: 6,
-              ),
+              progressBar(value: 1),
               const SizedBox(height: 2),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -80,8 +72,6 @@ class _BudgetPageState extends State<BudgetPage> {
             ],
           ),
         ),
-
-        // End single card
       ],
     );
   }

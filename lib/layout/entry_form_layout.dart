@@ -40,7 +40,7 @@ class EntryFormLayout extends StatelessWidget {
       ),
       backgroundColor: AppColors.background,
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
