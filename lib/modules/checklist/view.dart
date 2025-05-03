@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:event_planner/checklist/create.dart';
+import 'package:event_planner/modules/checklist/create.dart';
 
 class ChecklistPage extends StatefulWidget {
   const ChecklistPage({Key? key}) : super(key: key);

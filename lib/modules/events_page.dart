@@ -46,15 +46,20 @@ class EventsPage extends StatelessWidget {
         ],
       ),
       child: ListTile(
-        leading: CircleAvatar(
-          backgroundColor: iconBg,
-          radius: AppStyles.iconSize,
-          child: Icon(
-            icon,
-            color: AppColors.white,
-            size: AppStyles.largeIconSize,
-          ),
-        ),
+        leading: ClipOval(
+  child: Container(
+    color: iconBg,
+    width: AppStyles.iconSize * 2,
+    height: AppStyles.iconSize * 2,
+    alignment: Alignment.center,
+    child: Icon(
+      icon,
+      color: AppColors.white,
+      size: AppStyles.largeIconSize,
+    ),
+  ),
+)
+,
         title: Text(title, style: AppStyles.titleStyle),
         subtitle: Text(subtitle, style: AppStyles.subtitleStyle),
         trailing: Text(date, style: AppStyles.subtitleStyle),

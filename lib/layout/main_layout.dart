@@ -1,4 +1,5 @@
-import 'package:event_planner/checklist/view.dart';
+import 'package:event_planner/modules/calenader.dart';
+import 'package:event_planner/modules/checklist/view.dart';
 import 'package:flutter/material.dart';
 import '../shared/styles/colors.dart';
 import '../modules/events_page.dart';
@@ -20,7 +21,7 @@ class _MainScaffoldState extends State<MainScaffold> {
     const ChecklistPage(), // Placeholder for Checklist
     const EventsPage(),
     const Center(child: Text('Budget Page')), // Placeholder for Budget
-    const Center(child: Text('Menu Page')), // Placeholder for Menu
+    const Calenader(), // Placeholder for Menu
   ];
 
   String get _title {
@@ -34,7 +35,7 @@ class _MainScaffoldState extends State<MainScaffold> {
       case 3:
         return 'Budget';
       case 4:
-        return 'Menu';
+        return 'Calenader';
       default:
         return '';
     }
@@ -51,7 +52,7 @@ class _MainScaffoldState extends State<MainScaffold> {
       case 3:
         return Icons.account_balance_wallet;
       case 4:
-        return Icons.grid_view;
+        return Icons.access_time_filled;
       default:
         return Icons.home_outlined;
     }
