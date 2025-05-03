@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../shared/styles/colors.dart';
+import '../shared/styles/styles.dart';
 
 class SelectCategoryPage extends StatefulWidget {
   @override
@@ -32,11 +33,7 @@ class _SelectCategoryPageState extends State<SelectCategoryPage> {
         iconTheme: IconThemeData(color: AppColors.text),
         title: Text(
           'Category',
-          style: TextStyle(
-            color: AppColors.text,
-            fontWeight: FontWeight.bold,
-            fontSize: 22,
-          ),
+          style: AppStyles.titleStyle.copyWith(fontSize: 22),
         ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: AppColors.text),
@@ -44,7 +41,10 @@ class _SelectCategoryPageState extends State<SelectCategoryPage> {
         ),
       ),
       body: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 3),
+        padding: const EdgeInsets.symmetric(
+          vertical: AppStyles.smallPadding,
+          horizontal: 3,
+        ),
         children: [
           for (int index = 0; index < categories.length; index++) ...[
             GestureDetector(
@@ -55,10 +55,10 @@ class _SelectCategoryPageState extends State<SelectCategoryPage> {
                 Navigator.pop(context, categories[index]["name"]);
               },
               child: Container(
-                margin: EdgeInsets.only(bottom: 8),
+                margin: EdgeInsets.only(bottom: AppStyles.smallPadding),
                 decoration: BoxDecoration(
                   color: AppColors.white,
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(AppStyles.borderRadius),
                   border:
                       selectedIndex == index
                           ? Border.all(color: AppColors.primary, width: 1.5)
@@ -70,21 +70,21 @@ class _SelectCategoryPageState extends State<SelectCategoryPage> {
                     Icon(
                       categories[index]["icon"],
                       color: AppColors.primaryDark,
-                      size: 26,
+                      size: AppStyles.iconSize,
                     ),
                     SizedBox(width: 16),
                     Expanded(
                       child: Text(
                         categories[index]["name"],
-                        style: TextStyle(
-                          color: AppColors.text,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                        ),
+                        style: AppStyles.menuLabelStyle.copyWith(fontSize: 16),
                       ),
                     ),
                     if (selectedIndex == index)
-                      Icon(Icons.check, color: AppColors.primary, size: 22),
+                      Icon(
+                        Icons.check,
+                        color: AppColors.primary,
+                        size: AppStyles.iconSize - 2,
+                      ),
                   ],
                 ),
               ),
