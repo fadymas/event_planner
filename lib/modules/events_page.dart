@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../shared/styles/colors.dart';
 import '../shared/styles/styles.dart';
-import 'create_event_page.dart';
+
 
 class EventsPage extends StatelessWidget {
   const EventsPage({Key? key}) : super(key: key);
