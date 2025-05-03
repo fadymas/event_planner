@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../shared/styles/colors.dart';
 import '../shared/styles/styles.dart';
-import 'events_page.dart';
+import 'Events/events_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -18,7 +18,7 @@ class HomePage extends StatelessWidget {
 
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(AppStyles.defaultPadding),
+        padding: const EdgeInsets.all(AppStyles.smallPadding),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -68,21 +68,21 @@ class HomePage extends StatelessWidget {
 
   Widget _buildCountdownTimer() {
     return Container(
-      margin: const EdgeInsets.only(bottom: AppStyles.defaultPadding),
+      margin: const EdgeInsets.only(bottom: AppStyles.smallPadding),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(AppStyles.borderRadius),
+        borderRadius: BorderRadius.circular(AppStyles.borderRadius - 4),
       ),
       child: Column(
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(vertical: 12),
+            padding: const EdgeInsets.symmetric(vertical: 8),
             decoration: BoxDecoration(
               gradient: const LinearGradient(
                 colors: [AppColors.primary, AppColors.primaryDark],
               ),
               borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(AppStyles.borderRadius),
+                top: Radius.circular(AppStyles.borderRadius - 4),
               ),
             ),
             child: Row(
@@ -99,16 +99,24 @@ class HomePage extends StatelessWidget {
             ),
           ),
           ListTile(
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 8,
+              vertical: 0,
+            ),
             leading: CircleAvatar(
               backgroundColor: AppColors.primary,
-              child: const Icon(Icons.event, color: AppColors.white),
+              radius: 18,
+              child: const Icon(Icons.event, color: AppColors.white, size: 18),
             ),
-            title: Text('Name is not defined', style: AppStyles.titleStyle),
+            title: Text(
+              'Name is not defined',
+              style: AppStyles.titleStyle.copyWith(fontSize: 13),
+            ),
             subtitle: Text(
               '4/30/25, Your event',
-              style: AppStyles.subtitleStyle,
+              style: AppStyles.subtitleStyle.copyWith(fontSize: 11),
             ),
-            trailing: const Icon(Icons.menu, color: AppColors.grey),
+            trailing: const Icon(Icons.menu, color: AppColors.grey, size: 18),
           ),
         ],
       ),
@@ -127,15 +135,19 @@ class HomePage extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            padding: const EdgeInsets.all(AppStyles.smallPadding),
+            padding: const EdgeInsets.all(AppStyles.smallPadding - 2),
             decoration: BoxDecoration(
               color: AppColors.primary,
-              borderRadius: BorderRadius.circular(AppStyles.borderRadius),
+              borderRadius: BorderRadius.circular(AppStyles.borderRadius - 4),
             ),
-            child: Icon(icon, color: AppColors.white, size: AppStyles.iconSize),
+            child: Icon(
+              icon,
+              color: AppColors.white,
+              size: AppStyles.iconSize - 4,
+            ),
           ),
-          const SizedBox(height: AppStyles.smallPadding),
-          Text(label, style: AppStyles.menuLabelStyle),
+          const SizedBox(height: AppStyles.smallPadding - 2),
+          Text(label, style: AppStyles.menuLabelStyle.copyWith(fontSize: 10)),
         ],
       ),
     );
@@ -143,30 +155,33 @@ class HomePage extends StatelessWidget {
 
   Widget _buildMenuGrid(void Function(String) onTap) {
     return Container(
-      margin: const EdgeInsets.only(bottom: AppStyles.defaultPadding),
+      margin: const EdgeInsets.only(bottom: AppStyles.smallPadding),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(AppStyles.borderRadius),
+        borderRadius: BorderRadius.circular(AppStyles.borderRadius - 4),
       ),
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(AppStyles.defaultPadding),
+            padding: const EdgeInsets.all(AppStyles.smallPadding),
             child: Row(
               children: [
                 Icon(
                   Icons.grid_view,
-                  size: AppStyles.smallIconSize,
+                  size: AppStyles.smallIconSize - 2,
                   color: AppColors.text,
                 ),
-                const SizedBox(width: AppStyles.smallPadding),
-                Text('MENU', style: AppStyles.titleStyle),
+                const SizedBox(width: AppStyles.smallPadding - 2),
+                Text(
+                  'MENU',
+                  style: AppStyles.titleStyle.copyWith(fontSize: 12),
+                ),
               ],
             ),
           ),
           const Divider(height: 1, color: AppColors.grey),
           Padding(
-            padding: const EdgeInsets.all(AppStyles.defaultPadding),
+            padding: const EdgeInsets.all(AppStyles.smallPadding),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -199,16 +214,16 @@ class HomePage extends StatelessWidget {
 
   Widget _buildChecklistSection() {
     return Container(
-      margin: const EdgeInsets.only(bottom: AppStyles.defaultPadding),
+      margin: const EdgeInsets.only(bottom: AppStyles.smallPadding),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(AppStyles.borderRadius),
+        borderRadius: BorderRadius.circular(AppStyles.borderRadius - 4),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
-            padding: const EdgeInsets.all(AppStyles.defaultPadding),
+            padding: const EdgeInsets.all(AppStyles.smallPadding),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -216,65 +231,77 @@ class HomePage extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.checklist_rtl,
-                      size: AppStyles.smallIconSize,
+                      size: AppStyles.smallIconSize - 2,
                       color: AppColors.text,
                     ),
-                    const SizedBox(width: AppStyles.smallPadding),
-                    Text('CHECKLIST', style: AppStyles.titleStyle),
+                    const SizedBox(width: AppStyles.smallPadding - 2),
+                    Text(
+                      'CHECKLIST',
+                      style: AppStyles.titleStyle.copyWith(fontSize: 12),
+                    ),
                   ],
                 ),
-                Text('Summary >', style: AppStyles.subtitleStyle),
+                Text(
+                  'Summary >',
+                  style: AppStyles.subtitleStyle.copyWith(fontSize: 11),
+                ),
               ],
             ),
           ),
           const Divider(height: 1, color: AppColors.grey),
           Container(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                Image.asset('images/checklist.png', height: 75),
-                const SizedBox(height: AppStyles.defaultPadding),
+                Image.asset('images/checklist.png', height: 55),
+                const SizedBox(height: AppStyles.smallPadding),
                 Text(
                   'There are no uncompleted tasks',
-                  style: AppStyles.subtitleStyle,
+                  style: AppStyles.subtitleStyle.copyWith(fontSize: 11),
                 ),
               ],
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(
-              horizontal: AppStyles.defaultPadding,
+              horizontal: AppStyles.smallPadding,
             ),
             child: Column(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(4),
+                  borderRadius: BorderRadius.circular(3),
                   child: LinearProgressIndicator(
-                    value: 100,
+                    value: 1,
                     backgroundColor: AppColors.grey,
                     valueColor: const AlwaysStoppedAnimation<Color>(
                       AppColors.primary,
                     ),
-                    minHeight: 8,
+                    minHeight: 6,
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
-                    vertical: 12,
-                    horizontal: 4,
+                    vertical: 8,
+                    horizontal: 2,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('0% completed', style: AppStyles.subtitleStyle),
-                      Text('0 out of 0', style: AppStyles.subtitleStyle),
+                      Text(
+                        '0% completed',
+                        style: AppStyles.subtitleStyle.copyWith(fontSize: 10),
+                      ),
+                      Text(
+                        '0 out of 0',
+                        style: AppStyles.subtitleStyle.copyWith(fontSize: 10),
+                      ),
                     ],
                   ),
                 ),
               ],
             ),
           ),
-          const SizedBox(height: AppStyles.smallPadding),
+          const SizedBox(height: AppStyles.smallPadding - 2),
         ],
       ),
     );
@@ -282,15 +309,15 @@ class HomePage extends StatelessWidget {
 
   Widget _buildBudgetSection() {
     return Container(
-      margin: const EdgeInsets.only(bottom: AppStyles.defaultPadding),
+      margin: const EdgeInsets.only(bottom: AppStyles.smallPadding),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(AppStyles.borderRadius),
+        borderRadius: BorderRadius.circular(AppStyles.borderRadius - 4),
       ),
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(AppStyles.defaultPadding),
+            padding: const EdgeInsets.all(AppStyles.smallPadding),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -298,20 +325,26 @@ class HomePage extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.account_balance_wallet_outlined,
-                      size: AppStyles.smallIconSize,
+                      size: AppStyles.smallIconSize - 2,
                       color: AppColors.text,
                     ),
-                    const SizedBox(width: AppStyles.smallPadding),
-                    Text('BUDGET', style: AppStyles.titleStyle),
+                    const SizedBox(width: AppStyles.smallPadding - 2),
+                    Text(
+                      'BUDGET',
+                      style: AppStyles.titleStyle.copyWith(fontSize: 12),
+                    ),
                   ],
                 ),
-                Text('Balance >', style: AppStyles.subtitleStyle),
+                Text(
+                  'Balance >',
+                  style: AppStyles.subtitleStyle.copyWith(fontSize: 11),
+                ),
               ],
             ),
           ),
           const Divider(height: 1, color: AppColors.grey),
           Padding(
-            padding: const EdgeInsets.all(AppStyles.defaultPadding),
+            padding: const EdgeInsets.all(AppStyles.smallPadding),
             child: Column(
               children: [
                 _buildBudgetRow('Budget', 'Not defined'),
@@ -327,16 +360,16 @@ class HomePage extends StatelessWidget {
 
   Widget _buildBudgetRow(String label, String value) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: AppStyles.smallPadding),
+      padding: const EdgeInsets.symmetric(vertical: AppStyles.smallPadding - 2),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: AppStyles.titleStyle),
+          Text(label, style: AppStyles.titleStyle.copyWith(fontSize: 11)),
           Text(
             value,
             style: TextStyle(
               color: value == 'Not defined' ? AppColors.grey : AppColors.text,
-              fontSize: 14,
+              fontSize: 11,
             ),
           ),
         ],
@@ -346,27 +379,27 @@ class HomePage extends StatelessWidget {
 
   Widget _buildRateAppSection() {
     return Container(
-      margin: const EdgeInsets.only(bottom: AppStyles.defaultPadding),
+      margin: const EdgeInsets.only(bottom: AppStyles.smallPadding),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(AppStyles.borderRadius),
+        borderRadius: BorderRadius.circular(AppStyles.borderRadius - 4),
       ),
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(AppStyles.defaultPadding),
+            padding: const EdgeInsets.all(AppStyles.smallPadding),
             child: Row(
               children: [
                 Icon(
                   Icons.announcement_outlined,
-                  size: AppStyles.smallIconSize,
+                  size: AppStyles.smallIconSize - 2,
                   color: AppColors.grey,
                 ),
-                const SizedBox(width: AppStyles.smallPadding),
+                const SizedBox(width: AppStyles.smallPadding - 2),
                 Expanded(
                   child: Text(
                     'Please take a moment to rate this app or share your feedback with us',
-                    style: AppStyles.subtitleStyle,
+                    style: AppStyles.subtitleStyle.copyWith(fontSize: 11),
                   ),
                 ),
               ],
@@ -375,8 +408,8 @@ class HomePage extends StatelessWidget {
           Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(
-              horizontal: AppStyles.defaultPadding,
-              vertical: AppStyles.smallPadding,
+              horizontal: AppStyles.smallPadding,
+              vertical: AppStyles.smallPadding - 2,
             ),
             child: ElevatedButton(
               onPressed: () {},
@@ -384,21 +417,21 @@ class HomePage extends StatelessWidget {
                 backgroundColor: AppColors.primary,
                 foregroundColor: AppColors.white,
                 padding: const EdgeInsets.symmetric(
-                  vertical: AppStyles.defaultPadding,
+                  vertical: AppStyles.smallPadding,
                 ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(
-                    AppStyles.smallBorderRadius,
+                    AppStyles.smallBorderRadius - 2,
                   ),
                 ),
               ),
               child: const Text(
                 'RATE THIS APP',
-                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
               ),
             ),
           ),
-          const SizedBox(height: AppStyles.smallPadding),
+          const SizedBox(height: AppStyles.smallPadding - 2),
         ],
       ),
     );

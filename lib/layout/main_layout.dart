@@ -1,9 +1,11 @@
-import 'package:event_planner/checklist/view.dart';
+import 'package:event_planner/modules/Budget/budget_page.dart';
+import 'package:event_planner/modules/Budget/create_budget_page.dart';
+import 'package:event_planner/modules/checklist/view.dart';
 import 'package:flutter/material.dart';
 import '../shared/styles/colors.dart';
-import '../modules/events_page.dart';
+import '../modules/Events/events_page.dart';
 import '../modules/home_page.dart';
-import '../modules/create_event_page.dart';
+import '../modules/Events/create_event_page.dart';
 
 class MainScaffold extends StatefulWidget {
   const MainScaffold({Key? key}) : super(key: key);
@@ -14,14 +16,15 @@ class MainScaffold extends StatefulWidget {
 
 class _MainScaffoldState extends State<MainScaffold> {
   int _selectedIndex = 0;
-
   final List<Widget> _pages = [
     const HomePage(),
     const ChecklistPage(), // Placeholder for Checklist
     const EventsPage(),
-    const Center(child: Text('Budget Page')), // Placeholder for Budget
+    const BudgetPage(), // Placeholder for Budget
     const Center(child: Text('Menu Page')), // Placeholder for Menu
   ];
+  final GlobalKey<ChecklistPageState> _checklistKey =
+      GlobalKey<ChecklistPageState>();
 
   String get _title {
     switch (_selectedIndex) {
@@ -49,7 +52,7 @@ class _MainScaffoldState extends State<MainScaffold> {
       case 2:
         return Icons.event;
       case 3:
-        return Icons.account_balance_wallet;
+        return Icons.account_balance_wallet_outlined;
       case 4:
         return Icons.grid_view;
       default:
@@ -80,18 +83,38 @@ class _MainScaffoldState extends State<MainScaffold> {
       body: _pages[_selectedIndex],
       backgroundColor: AppColors.background,
       floatingActionButton:
-          _selectedIndex == 2
+          _selectedIndex >= 1 && _selectedIndex <= 3
               ? FloatingActionButton(
                 onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const CreateEventPage(),
-                    ),
-                  );
+                  switch (_selectedIndex) {
+                    case 1: // Checklist
+                      _checklistKey.currentState?.navigateToCreatePage();
+                      break;
+                    case 2: // Events
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const CreateEventPage(),
+                        ),
+                      );
+                      break;
+                    case 3: // Budget
+                        Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const AddCostScreen(),
+                        ),
+                      );
+                  }
                 },
                 backgroundColor: AppColors.primary,
                 shape: const CircleBorder(),
-                child: const Icon(Icons.add, color: AppColors.white),
+                child: Icon(
+                  _selectedIndex == 1
+                      ? Icons.add_task
+                      : _selectedIndex == 2
+                      ? Icons.add
+                      : Icons.add_chart,
+                  color: AppColors.white,
+                ),
               )
               : null,
       bottomNavigationBar: BottomNavigationBar(
