@@ -49,3 +49,7 @@ firebase.json
 /lib/firebase_options.dart
 android/app/google-services.json
 .vscode/
+.dart_tool/package_config_subset
+.flutter-plugins
+.flutter-plugins
+.flutter-plugins-dependencies

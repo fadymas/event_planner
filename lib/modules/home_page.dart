@@ -8,7 +8,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    void _onMenuGridTap(String label) {
+    void onMenuGridTap(String label) {
       if (label == 'Events') {
         Navigator.of(
           context,
@@ -23,7 +23,7 @@ class HomePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildCountdownTimer(),
-            _buildMenuGrid(_onMenuGridTap),
+            _buildMenuGrid(onMenuGridTap),
             _buildChecklistSection(),
             _buildBudgetSection(),
             _buildRateAppSection(),
