@@ -53,3 +53,5 @@ android/app/google-services.json
 .flutter-plugins
 .flutter-plugins
 .flutter-plugins-dependencies
+.idea/workspace.xml
+.flutter-plugins-dependencies
