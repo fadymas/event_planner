@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../shared/styles/colors.dart';
 import '../../shared/styles/styles.dart';
 import '../../shared/components/components.dart';
 
@@ -44,14 +43,6 @@ class _BudgetPageState extends State<BudgetPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              sectionHeader(
-                icon: Icons.account_balance_wallet_outlined,
-                title: 'BUDGET',
-                actionText: 'Balance >',
-                onActionTap: () {},
-              ),
-              const Divider(height: 1, color: AppColors.grey),
-              const SizedBox(height: 8),
               Text('Hhdhh', style: AppStyles.titleStyle.copyWith(fontSize: 13)),
               const SizedBox(height: 4),
               progressBar(value: 1),

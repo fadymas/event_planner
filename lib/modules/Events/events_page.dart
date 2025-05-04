@@ -18,7 +18,6 @@ class EventsPage extends StatelessWidget {
           icon: Icons.mic,
           iconBg: AppColors.primary,
         ),
-        // Add more events here as needed
       ],
     );
   }

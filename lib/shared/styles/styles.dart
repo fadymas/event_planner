@@ -2,23 +2,20 @@ import 'package:flutter/material.dart';
 import 'colors.dart';
 
 class AppStyles {
-  // Border radius
-  static const double borderRadius = 12.0; // Used for main containers and cards
+  static const double borderRadius = 12.0; 
   static const double smallBorderRadius =
-      8.0; // Used for buttons and small containers
+      8.0; 
 
-  // Padding
-  static const double defaultPadding = 16.0; // Standard padding for containers
-  static const double smallPadding = 8.0; // Small padding for elements
-  static const double tinyPadding = 4.0; // Minimal padding for tight spaces
+  static const double defaultPadding = 16.0; 
 
-  // Icon sizes
-  static const double iconSize = 24.0; // Standard icon size
+  static const double smallPadding = 8.0; 
+  static const double tinyPadding = 4.0; 
+
+  static const double iconSize = 24.0; 
   static const double smallIconSize =
-      20.0; // Small icon size for secondary elements
-  static const double largeIconSize = 28.0; // Large icon size for emphasis
+      20.0;
+  static const double largeIconSize = 28.0; 
 
-  // Text styles
   static const TextStyle titleStyle = TextStyle(
     color: AppColors.text,
     fontWeight: FontWeight.bold,
@@ -36,7 +33,6 @@ class AppStyles {
     color: AppColors.text,
   );
 
-  // Input decoration styles
   static InputDecoration inputDecoration({
     required String label,
     IconData? prefixIcon,
@@ -64,7 +60,6 @@ class AppStyles {
     );
   }
 
-  // Card decoration
   static BoxDecoration cardDecoration = BoxDecoration(
     color: AppColors.white,
     borderRadius: BorderRadius.circular(borderRadius),

@@ -160,7 +160,6 @@ class _AddCostScreenState extends State<AddCostScreen> {
       ],
       buttonText: 'ADD',
       onSubmit: () {
-        // Handle save logic
         print("Name: \\${nameController.text}");
         print("Note: \\${noteController.text}");
         print("Category: \\${selectedCategory}");

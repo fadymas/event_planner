@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../styles/colors.dart';
 import '../styles/styles.dart';
 
-/// A horizontal scrollable row of selectable items with gradient background for selected item
 Widget scrollSelectorRow({
   required List<dynamic> items,
   required int selectedIndex,
@@ -61,7 +60,6 @@ Widget scrollSelectorRow({
   );
 }
 
-/// A standard card with consistent styling across the app
 Widget standardCard({
   required Widget child,
   EdgeInsets? padding,
@@ -75,7 +73,6 @@ Widget standardCard({
   );
 }
 
-/// A section header with icon and title
 Widget sectionHeader({
   required IconData icon,
   required String title,
@@ -111,7 +108,6 @@ Widget sectionHeader({
   );
 }
 
-/// A standard progress indicator with consistent styling
 Widget progressBar({required double value, double? height}) {
   return ClipRRect(
     borderRadius: BorderRadius.circular(3),
@@ -124,7 +120,6 @@ Widget progressBar({required double value, double? height}) {
   );
 }
 
-/// A standard menu item with icon and label
 Widget menuItem({
   required IconData icon,
   required String label,

@@ -45,7 +45,6 @@ class _CreateEventPageState extends State<CreateEventPage> {
 
   void _submitForm() {
     if (_formKey.currentState!.validate() && _validateDateTime() == null) {
-      // TODO: Handle form submission
       print('Form is valid');
       print('Name: ${_nameController.text}');
       print('Budget: ${_budgetController.text}');
@@ -89,7 +88,6 @@ class _CreateEventPageState extends State<CreateEventPage> {
                 key: _formKey,
                 child: Column(
                   children: [
-                    // Placeholder for illustration
                     Image.asset("images/event-list.png", height: 120),
 
                     const SizedBox(height: 16),
@@ -202,7 +200,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                       child: ElevatedButton(
                         onPressed: _submitForm,
                         style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.zero,
+                          padding: EdgeInsets.symmetric(horizontal: 0),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(
                               AppStyles.smallBorderRadius,

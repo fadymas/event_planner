@@ -22,7 +22,7 @@ class _SelectCategoryPageState extends State<SelectCategoryPage> {
     {"name": "Transportation", "icon": Icons.directions_car},
     {"name": "Accommodation", "icon": Icons.home},
   ];
-  int? selectedIndex = 1; // Default to "Attire & Accessories"
+  int? selectedIndex = 1;
 
   @override
   Widget build(BuildContext context) {

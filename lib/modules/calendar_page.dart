@@ -17,8 +17,6 @@ class _CalendarState extends State<Calendar> {
   final List<Event> _events = [
     Event(date: DateTime(2025, 5, 21, 13, 0), title: 'Club Meeting'),
     Event(date: DateTime(2025, 5, 21, 15, 0), title: 'Team Workshop'),
-
-    // New 2025 event
     Event(date: DateTime(2025, 5, 21, 14, 0), title: '2025 Planning Session'),
   ];
 
@@ -187,10 +185,3 @@ class _CalendarState extends State<Calendar> {
     );
   }
 }
-
-// class Event {
-//   final DateTime date;
-//   final String title;
-
-//   Event({required this.date, required this.title});
-// }

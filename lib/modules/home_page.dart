@@ -9,22 +9,21 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    void _onMenuGridTap(String label) {
-      if (label == 'Events') {
-        Navigator.of(
-          context,
-        ).push(MaterialPageRoute(builder: (context) => const EventsPage()));
-      }
-    }
+    // void _onMenuGridTap(String label) {
+    //   if (label == 'Events') {
+    //     Navigator.of(
+    //       context,
+    //     ).push(MaterialPageRoute(builder: (context) => const EventsPage()));
+    //   }
+    // }
 
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(AppStyles.smallPadding),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildCountdownTimer(),
-            _buildMenuGrid(_onMenuGridTap),
+            _buildMenuGrid(),
             _buildChecklistSection(),
             _buildBudgetSection(),
             _buildRateAppSection(),
@@ -104,10 +103,17 @@ class HomePage extends StatelessWidget {
               horizontal: 8,
               vertical: 0,
             ),
-            leading: CircleAvatar(
-              backgroundColor: AppColors.primary,
-              radius: 18,
-              child: const Icon(Icons.event, color: AppColors.white, size: 18),
+            leading: ClipOval(
+              child: Container(
+                width: 36,
+                height: 36,
+                color: AppColors.primary,
+                child: const Icon(
+                  Icons.event,
+                  color: AppColors.white,
+                  size: 18,
+                ),
+              ),
             ),
             title: Text(
               'Name is not defined',
@@ -124,7 +130,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildMenuGrid(void Function(String) onTap) {
+  Widget _buildMenuGrid() {
     return Container(
       margin: const EdgeInsets.only(bottom: AppStyles.smallPadding),
       decoration: BoxDecoration(
