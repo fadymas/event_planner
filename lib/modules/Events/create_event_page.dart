@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../shared/styles/colors.dart';
 import '../../shared/styles/styles.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CreateEventPage extends StatefulWidget {
   const CreateEventPage({Key? key}) : super(key: key);
@@ -12,6 +13,7 @@ class CreateEventPage extends StatefulWidget {
 class _CreateEventPageState extends State<CreateEventPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _subTitleController = TextEditingController();
   final TextEditingController _budgetController = TextEditingController();
   DateTime? _selectedDate;
   TimeOfDay? _selectedTime;
@@ -43,13 +45,29 @@ class _CreateEventPageState extends State<CreateEventPage> {
     return null;
   }
 
-  void _submitForm() {
+  void _submitForm() async {
     if (_formKey.currentState!.validate() && _validateDateTime() == null) {
-      print('Form is valid');
-      print('Name: ${_nameController.text}');
-      print('Budget: ${_budgetController.text}');
-      print('Date: $_selectedDate');
-      print('Time: $_selectedTime');
+      try {
+        final now = DateTime.now();
+        await FirebaseFirestore.instance.collection('events').add({
+          'name': _nameController.text.trim(),
+          'subTitle': _subTitleController.text.trim(),
+          'date': _selectedDate!.toIso8601String().split('T').first,
+          'time': _selectedTime!.format(context),
+          'budget': double.parse(_budgetController.text),
+          'isOwner': true,
+          'createdAt': now.toIso8601String(),
+          'updatedAt': now.toIso8601String(),
+        });
+
+        if (mounted) {
+          Navigator.pop(context);
+        }
+      } catch (e) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error creating event: $e')));
+      }
     }
   }
 
@@ -112,6 +130,14 @@ class _CreateEventPageState extends State<CreateEventPage> {
                         border: OutlineInputBorder(),
                       ),
                       validator: _validateName,
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: _subTitleController,
+                      decoration: const InputDecoration(
+                        labelText: 'Subtitle',
+                        border: OutlineInputBorder(),
+                      ),
                     ),
                     const SizedBox(height: 16),
                     Row(
@@ -240,5 +266,13 @@ class _CreateEventPageState extends State<CreateEventPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _subTitleController.dispose();
+    _budgetController.dispose();
+    super.dispose();
   }
 }

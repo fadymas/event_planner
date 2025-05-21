@@ -3,28 +3,49 @@ import 'package:event_planner/modules/Budget/create_budget_page.dart';
 import 'package:event_planner/modules/calendar_page.dart';
 import 'package:event_planner/modules/checklist/view.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import '../shared/styles/colors.dart';
 import '../modules/Events/events_page.dart';
 import '../modules/home_page.dart';
 import '../modules/Events/create_event_page.dart';
+import '../shared/styles/styles.dart';
 
 class MainScaffold extends StatefulWidget {
   const MainScaffold({Key? key}) : super(key: key);
 
   @override
-  State<MainScaffold> createState() => _MainScaffoldState();
+  State<MainScaffold> createState() => MainScaffoldState();
 }
 
-class _MainScaffoldState extends State<MainScaffold> {
+class MainScaffoldState extends State<MainScaffold> {
   int _selectedIndex = 0;
+  MobileScannerController controller = MobileScannerController();
+  bool isScanning = false;
+
+  void setSelectedIndex(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  void onDetect(BarcodeCapture capture) {
+    final barcode = capture.barcodes.first;
+    print('QR Code scanned: \\${barcode.rawValue}');
+    controller.stop();
+    setState(() {
+      isScanning = false;
+    });
+    Navigator.pop(context);
+  }
+
   final GlobalKey<ChecklistPageState> _checklistKey =
       GlobalKey<ChecklistPageState>();
 
   List<Widget> get _pages => [
     const HomePage(),
-    ChecklistPage(key: _checklistKey),  
+    ChecklistPage(key: _checklistKey),
     const EventsPage(),
-    const BudgetPage(), 
+    const BudgetPage(),
     const Calendar(),
   ];
 
@@ -62,22 +83,93 @@ class _MainScaffoldState extends State<MainScaffold> {
     }
   }
 
+  Future<void> showQRScanner() async {
+    try {
+      if (!mounted) return;
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder:
+            (context) => Container(
+              height: MediaQuery.of(context).size.height * 0.7,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(AppStyles.borderRadius),
+                ),
+              ),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Scan QR Code',
+                          style: AppStyles.titleStyle.copyWith(fontSize: 18),
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.close),
+                          onPressed: () {
+                            controller.stop();
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Stack(
+                      children: [
+                        MobileScanner(
+                          controller: controller,
+                          onDetect: onDetect,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+      );
+    } catch (e) {
+      print('Error showing QR scanner: $e');
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error initializing camera: $e')));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(_titleIcon, color: AppColors.text),
-            const SizedBox(width: 8),
-            Text(
-              _title,
-              style: const TextStyle(
-                color: AppColors.text,
-                fontWeight: FontWeight.bold,
+            Container(
+              child: Row(
+                children: [
+                  Icon(_titleIcon, color: AppColors.text),
+                  const SizedBox(width: 8),
+                  Text(
+                    _title,
+                    style: const TextStyle(
+                      color: AppColors.text,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
             ),
+            if (_selectedIndex == 2)
+              IconButton(
+                onPressed: showQRScanner,
+                icon: const Icon(Icons.qr_code_scanner),
+              ),
           ],
         ),
         backgroundColor: AppColors.white,
@@ -89,17 +181,17 @@ class _MainScaffoldState extends State<MainScaffold> {
               ? FloatingActionButton(
                 onPressed: () {
                   switch (_selectedIndex) {
-                    case 1: 
+                    case 1:
                       _checklistKey.currentState?.navigateToCreatePage();
                       break;
-                    case 2: 
+                    case 2:
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => const CreateEventPage(),
                         ),
                       );
                       break;
-                    case 3: 
+                    case 3:
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => const AddCostScreen(),
@@ -140,11 +232,7 @@ class _MainScaffoldState extends State<MainScaffold> {
         currentIndex: _selectedIndex,
         selectedItemColor: AppColors.primary,
         unselectedItemColor: AppColors.grey,
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
+        onTap: setSelectedIndex,
       ),
     );
   }

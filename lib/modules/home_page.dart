@@ -1,22 +1,30 @@
 import 'package:flutter/material.dart';
+import '../layout/main_layout.dart';
 import '../shared/styles/colors.dart';
 import '../shared/styles/styles.dart';
 import '../shared/components/components.dart';
 import 'Events/events_page.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    // void _onMenuGridTap(String label) {
-    //   if (label == 'Events') {
-    //     Navigator.of(
-    //       context,
-    //     ).push(MaterialPageRoute(builder: (context) => const EventsPage()));
-    //   }
-    // }
+  State<HomePage> createState() => _HomePageState();
+}
 
+class _HomePageState extends State<HomePage> {
+  void _navigateToPage(int index) {
+    final mainScaffoldState =
+        context.findAncestorStateOfType<MainScaffoldState>();
+    if (mainScaffoldState != null) {
+      mainScaffoldState.setState(() {
+        mainScaffoldState.setSelectedIndex(index);
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(AppStyles.smallPadding),
@@ -149,18 +157,22 @@ class HomePage extends StatelessWidget {
                 menuItem(
                   icon: Icons.checklist,
                   label: 'Checklist',
-                  onTap: () {},
+                  onTap: () => _navigateToPage(1),
                 ),
-                menuItem(icon: Icons.event, label: 'Events', onTap: () => {}),
+                menuItem(
+                  icon: Icons.event,
+                  label: 'Events',
+                  onTap: () => _navigateToPage(2),
+                ),
                 menuItem(
                   icon: Icons.attach_money,
                   label: 'Budget',
-                  onTap: () => {},
+                  onTap: () => _navigateToPage(3),
                 ),
                 menuItem(
                   icon: Icons.calendar_month,
                   label: 'Calendar',
-                  onTap: () => {},
+                  onTap: () => _navigateToPage(4),
                 ),
               ],
             ),

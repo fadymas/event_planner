@@ -1,24 +1,59 @@
+import 'package:event_planner/models/Events.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
+import '../../shared/network/remote/firebase_operations.dart';
 import '../../shared/styles/colors.dart';
 import '../../shared/styles/styles.dart';
 
-class EventsPage extends StatelessWidget {
+class EventsPage extends StatefulWidget {
   const EventsPage({Key? key}) : super(key: key);
 
   @override
+  State<EventsPage> createState() => EventsPageState();
+}
+
+class EventsPageState extends State<EventsPage> {
+  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  MobileScannerController? controller;
+
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.all(AppStyles.smallPadding),
-      children: [
-        _buildEventCard(
-          context,
-          title: 'Name is not defined',
-          subtitle: 'Your event',
-          date: '4/30/25',
-          icon: Icons.mic,
-          iconBg: AppColors.primary,
-        ),
-      ],
+    return StreamBuilder<List>(
+      stream: getData('events', EventModel.fromFirestore),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+          return ListView.builder(
+            padding: const EdgeInsets.all(AppStyles.smallPadding),
+            itemCount: snapshot.data!.length,
+            itemBuilder: (context, index) {
+              final event = snapshot.data![index];
+              return _buildEventCard(
+                context,
+                title: event.name,
+                subtitle: event.subTitle,
+                date: event.formattedDate,
+                icon: Icons.mic,
+                iconBg: AppColors.primary,
+              );
+            },
+          );
+        }
+
+        return const Center(child: Text('No events found'));
+      },
     );
   }
 

@@ -1,0 +1,90 @@
+{
+  "events": {
+    "event1": {
+      "name": "Wedding Ceremony",
+      "date": "2024-06-15T00:00:00.000Z",
+      "time": "14:00",
+      "budget": 5000,
+      "qrCode": "wedding-2024-001",
+      "createdAt": "2024-03-19T00:00:00.000Z",
+      "updatedAt": "2024-03-19T00:00:00.000Z"
+    }
+  },
+  "checklists": {
+    "checklist1": {
+      "eventId": "event1",
+      "eventName": "Wedding Ceremony",
+      "note": "Book venue",
+      "category": "Venue",
+      "categoryIcon": "location",
+      "date": "2024-03-20T00:00:00.000Z",
+      "isCompleted": false,
+      "createdAt": "2024-03-19T00:00:00.000Z",
+      "updatedAt": "2024-03-19T00:00:00.000Z"
+    }
+  },
+  "budgets": {
+    "budget1": {
+      "eventId": "event1",
+      "name": "Venue Rental",
+      "note": "Main hall rental",
+      "category": "Venue",
+      "categoryIcon": "location",
+      "amount": 2000,
+      "createdAt": "2024-03-19T00:00:00.000Z",
+      "updatedAt": "2024-03-19T00:00:00.000Z"
+    }
+  },
+  "categories": {
+    "category1": {
+      "name": "Unassigned category",
+      "icon": "scatter_plot",
+      "note": "Default category"
+    },
+    "category2": {
+      "name": "Attire & Accessories",
+      "icon": "checkroom",
+      "note": "Clothing and accessories"
+    },
+    "category3": {
+      "name": "Health & Beauty",
+      "icon": "spa",
+      "note": "Health and beauty services"
+    },
+    "category4": {
+      "name": "Music & Show",
+      "icon": "music_note",
+      "note": "Entertainment services"
+    },
+    "category5": {
+      "name": "Flowers & Decor",
+      "icon": "local_florist",
+      "note": "Decoration items"
+    },
+    "category6": {
+      "name": "Photo & Video",
+      "icon": "photo_camera",
+      "note": "Photography and videography"
+    },
+    "category7": {
+      "name": "Accessories",
+      "icon": "emoji_events",
+      "note": "Event accessories"
+    },
+    "category8": {
+      "name": "Reception",
+      "icon": "room_service",
+      "note": "Reception services"
+    },
+    "category9": {
+      "name": "Transportation",
+      "icon": "directions_car",
+      "note": "Transportation services"
+    },
+    "category10": {
+      "name": "Accommodation",
+      "icon": "home",
+      "note": "Accommodation services"
+    }
+  }
+}

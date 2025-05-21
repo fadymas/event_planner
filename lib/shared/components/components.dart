@@ -109,14 +109,12 @@ Widget sectionHeader({
 }
 
 Widget progressBar({required double value, double? height}) {
-  return ClipRRect(
+  return LinearProgressIndicator(
+    value: value,
+    backgroundColor: AppColors.progressBackground,
+    valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
+    minHeight: height ?? 6,
     borderRadius: BorderRadius.circular(3),
-    child: LinearProgressIndicator(
-      value: value,
-      backgroundColor: AppColors.progressBackground,
-      valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
-      minHeight: height ?? 6,
-    ),
   );
 }
 

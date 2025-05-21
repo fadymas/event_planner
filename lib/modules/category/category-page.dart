@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../shared/styles/colors.dart';
 import '../../shared/styles/styles.dart';
-import '../../shared/components/components.dart';
 import 'create_category_page.dart';
+import '../../models/Categories.dart';
+import '../../shared/network/remote/firebase_operations.dart';
 
 class SelectCategoryPage extends StatefulWidget {
   const SelectCategoryPage({Key? key}) : super(key: key);
@@ -11,19 +12,16 @@ class SelectCategoryPage extends StatefulWidget {
 }
 
 class _SelectCategoryPageState extends State<SelectCategoryPage> {
-  final List<Map<String, dynamic>> categories = [
-    {"name": "Unassigned category", "icon": Icons.scatter_plot},
-    {"name": "Attire & Accessories", "icon": Icons.checkroom},
-    {"name": "Health & Beauty", "icon": Icons.spa},
-    {"name": "Music & Show", "icon": Icons.music_note},
-    {"name": "Flowers & Decor", "icon": Icons.local_florist},
-    {"name": "Photo & Video", "icon": Icons.photo_camera},
-    {"name": "Accessories", "icon": Icons.emoji_events},
-    {"name": "Reception", "icon": Icons.room_service},
-    {"name": "Transportation", "icon": Icons.directions_car},
-    {"name": "Accommodation", "icon": Icons.home},
-  ];
-  int? selectedIndex = 1;
+  int? selectedIndex = null;
+
+  // Helper function to create the icon widget with error handling
+  Widget _buildCategoryIcon(CategoryModel category) {
+    return Icon(
+      IconData(int.parse(category.icon), fontFamily: 'MaterialIcons'),
+      color: AppColors.primaryDark,
+      size: AppStyles.iconSize,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,61 +40,87 @@ class _SelectCategoryPageState extends State<SelectCategoryPage> {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(
-          vertical: AppStyles.smallPadding,
-          horizontal: 3,
+      body: StreamBuilder<List<CategoryModel>>(
+        stream: getData<CategoryModel>(
+          'categories',
+          CategoryModel.fromFirestore,
         ),
-        children: [
-          for (int index = 0; index < categories.length; index++) ...[
-            standardCard(
-              margin: EdgeInsets.only(bottom: AppStyles.smallPadding),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pop(context, [
-                    categories[index]["name"],
-                    categories[index]["icon"],
-                  ]);
-                },
-                child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                  decoration: BoxDecoration(
-                    color: AppColors.white,
-                    borderRadius: BorderRadius.circular(AppStyles.borderRadius),
-                    border:
-                        selectedIndex == index
-                            ? Border.all(color: AppColors.primary, width: 1.5)
-                            : null,
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        categories[index]["icon"],
-                        color: AppColors.primaryDark,
-                        size: AppStyles.iconSize,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          final categories = snapshot.data ?? [];
+
+          if (categories.isEmpty) {
+            return const Center(child: Text('No categories found'));
+          }
+
+          return ListView(
+            padding: const EdgeInsets.symmetric(
+              vertical: AppStyles.smallPadding,
+              horizontal: 3,
+            ),
+            children: [
+              for (int index = 0; index < categories.length; index++) ...[
+                Container(
+                  margin: EdgeInsets.only(bottom: AppStyles.smallPadding),
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedIndex = index;
+                      });
+                      Navigator.pop(context, categories[index]);
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 16,
                       ),
-                      SizedBox(width: 16),
-                      Expanded(
-                        child: Text(
-                          categories[index]["name"],
-                          style: AppStyles.menuLabelStyle.copyWith(
-                            fontSize: 16,
+                      decoration: BoxDecoration(
+                        color: AppColors.white,
+                        borderRadius: BorderRadius.circular(
+                          AppStyles.borderRadius,
+                        ),
+                        border:
+                            selectedIndex == index
+                                ? Border.all(color: AppColors.primary, width: 2)
+                                : Border.all(
+                                  color: Colors.transparent,
+                                  width: 2,
+                                ),
+                      ),
+                      child: Row(
+                        children: [
+                          _buildCategoryIcon(categories[index]),
+                          SizedBox(width: 16),
+                          Expanded(
+                            child: Text(
+                              categories[index].name,
+                              style: AppStyles.menuLabelStyle.copyWith(
+                                fontSize: 16,
+                              ),
+                            ),
                           ),
-                        ),
+                          if (selectedIndex == index)
+                            Icon(
+                              Icons.check,
+                              color: AppColors.primary,
+                              size: AppStyles.iconSize - 2,
+                            ),
+                        ],
                       ),
-                      if (selectedIndex == index)
-                        Icon(
-                          Icons.check,
-                          color: AppColors.primary,
-                          size: AppStyles.iconSize - 2,
-                        ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ),
-          ],
-        ],
+              ],
+            ],
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.primary,
@@ -108,9 +132,7 @@ class _SelectCategoryPageState extends State<SelectCategoryPage> {
             MaterialPageRoute(builder: (_) => const AddCategoryPage()),
           );
           if (result != null && result is Map) {
-            setState(() {
-              categories.add({"name": result['name'], "icon": result['icon']});
-            });
+            setState(() {});
           }
         },
       ),
