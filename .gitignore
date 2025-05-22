@@ -46,6 +46,6 @@ app.*.map.json
 
 ## database
 firebase.json
-/lib/firebase_options.dart
+/lib/shared/network/remote/firebase_options.dart
 /android/google-services.json
 .vscode/
