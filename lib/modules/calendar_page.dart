@@ -1,12 +1,6 @@
-import 'package:event_planner/shared/styles/colors.dart';
-import 'package:flutter/material.dart';
+import '../exports.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:timeline_tile/timeline_tile.dart';
-import '../../shared/styles/styles.dart';
-import '../models/Events.dart';
-import '../models/ListItems.dart';
-import '../shared/network/remote/firebase_operations.dart';
-
 class Calendar extends StatefulWidget {
   const Calendar({super.key});
 

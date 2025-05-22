@@ -1,13 +1,5 @@
-import 'package:event_planner/shared/styles/colors.dart';
-import 'package:flutter/material.dart';
+import '../../exports.dart';
 import 'package:event_planner/modules/checklist/create.dart';
-import 'package:event_planner/modules/checklist/edit.dart';
-import '../../shared/components/components.dart';
-import '../../models/ListItems.dart';
-import '../../models/Categories.dart';
-import '../../shared/network/remote/firebase_operations.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import '../checklist/task_details.dart';
 
 class ChecklistPage extends StatefulWidget {
   const ChecklistPage({Key? key}) : super(key: key);

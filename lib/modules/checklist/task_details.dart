@@ -1,12 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../shared/styles/colors.dart';
-import '../../shared/styles/styles.dart';
-import '../../shared/components/components.dart'; // Assuming standardCard and sectionHeader are here
-import '../../models/ListItems.dart';
-import '../../models/Events.dart';
-import '../../models/Categories.dart';
-import '../../shared/network/remote/firebase_operations.dart'; // Assuming getData and getDocument are here
+import '../../exports.dart';
 import '../checklist/edit.dart';
 
 class TaskDetailsPage extends StatefulWidget {
@@ -255,6 +247,8 @@ class _TaskDetailsPageState extends State<TaskDetailsPage> {
         backgroundColor: AppColors.primary,
         child: const Icon(Icons.edit),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+
       backgroundColor: AppColors.white,
     );
   }

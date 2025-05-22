@@ -1,9 +1,4 @@
-import 'package:flutter/material.dart';
-import '../../shared/styles/colors.dart';
-import '../../shared/styles/styles.dart';
-import 'create_category_page.dart';
-import '../../models/Categories.dart';
-import '../../shared/network/remote/firebase_operations.dart';
+import '../../exports.dart';
 
 class SelectCategoryPage extends StatefulWidget {
   const SelectCategoryPage({Key? key}) : super(key: key);

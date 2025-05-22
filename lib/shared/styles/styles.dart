@@ -2,19 +2,17 @@ import 'package:flutter/material.dart';
 import 'colors.dart';
 
 class AppStyles {
-  static const double borderRadius = 12.0; 
-  static const double smallBorderRadius =
-      8.0; 
+  static const double borderRadius = 12.0;
+  static const double smallBorderRadius = 8.0;
 
-  static const double defaultPadding = 16.0; 
+  static const double defaultPadding = 16.0;
 
-  static const double smallPadding = 8.0; 
-  static const double tinyPadding = 4.0; 
+  static const double smallPadding = 8.0;
+  static const double tinyPadding = 4.0;
 
-  static const double iconSize = 24.0; 
-  static const double smallIconSize =
-      20.0;
-  static const double largeIconSize = 28.0; 
+  static const double iconSize = 24.0;
+  static const double smallIconSize = 20.0;
+  static const double largeIconSize = 28.0;
 
   static const TextStyle titleStyle = TextStyle(
     color: AppColors.text,

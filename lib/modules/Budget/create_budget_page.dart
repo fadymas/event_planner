@@ -1,12 +1,4 @@
-import 'package:flutter/material.dart';
-import '../category/category-page.dart';
-import '../../shared/styles/colors.dart';
-import '../../shared/styles/styles.dart';
-import '../../layout/entry_form_layout.dart';
-import '../../models/Events.dart';
-import '../../models/Categories.dart';
-import '../../shared/network/remote/firebase_operations.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../exports.dart';
 
 class AddCostScreen extends StatefulWidget {
   const AddCostScreen({Key? key}) : super(key: key);

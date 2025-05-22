@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import '../styles/colors.dart';
-import '../styles/styles.dart';
+import '../../exports.dart';
 
 Widget scrollSelectorRow({
   required List<dynamic> items,

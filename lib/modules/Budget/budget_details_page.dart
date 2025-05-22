@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../layout/entry_form_layout.dart';
 import '../../shared/styles/colors.dart';
 import '../../shared/styles/styles.dart';
-import '../category/category-page.dart';
 import '../../models/Budgets.dart';
 import '../../models/Events.dart';
 import '../../models/Categories.dart';
-import '../../shared/network/remote/firebase_operations.dart';
 import '../../shared/components/components.dart';
-import 'edit_budget_page.dart'; // Assuming standardCard and sectionHeader are here
+import '../../layout/main_layout.dart';
+import 'edit_budget_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class BudgetDetailsPage extends StatefulWidget {
   final BudgetModel budgetItem;
 
-  const BudgetDetailsPage({Key? key, required this.budgetItem})
-    : super(key: key);
+  const BudgetDetailsPage({super.key, required this.budgetItem});
 
   @override
   _BudgetDetailsPageState createState() => _BudgetDetailsPageState();
@@ -186,6 +183,7 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
         backgroundColor: AppColors.primary, // Assuming AppColors.primary exists
         child: const Icon(Icons.edit),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       backgroundColor: AppColors.white, // Assuming AppColors.white exists
     );
   }

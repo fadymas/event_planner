@@ -1,8 +1,13 @@
-import 'package:flutter/material.dart';
-import '../../shared/styles/colors.dart';
-import '../../shared/styles/styles.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../exports.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+import 'dart:ui' as ui;
 
+/// A page for creating new events with form validation and QR code generation.
+///
+/// This page allows users to:
+/// - Enter event details (name, subtitle, date, time, budget)
+/// - Generate a QR code for the event
+/// - Save the event to Firebase
 class CreateEventPage extends StatefulWidget {
   const CreateEventPage({Key? key}) : super(key: key);
 
@@ -11,13 +16,20 @@ class CreateEventPage extends StatefulWidget {
 }
 
 class _CreateEventPageState extends State<CreateEventPage> {
+  // Form key for validation
   final _formKey = GlobalKey<FormState>();
+
+  // Controllers for text input fields
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _subTitleController = TextEditingController();
   final TextEditingController _budgetController = TextEditingController();
+
+  // Selected date and time
   DateTime? _selectedDate;
   TimeOfDay? _selectedTime;
 
+  /// Validates the event name
+  /// Returns null if valid, error message if invalid
   String? _validateName(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please enter event name';
@@ -25,6 +37,8 @@ class _CreateEventPageState extends State<CreateEventPage> {
     return null;
   }
 
+  /// Validates the budget amount
+  /// Returns null if valid, error message if invalid
   String? _validateBudget(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please enter budget';
@@ -35,6 +49,8 @@ class _CreateEventPageState extends State<CreateEventPage> {
     return null;
   }
 
+  /// Validates that both date and time are selected
+  /// Returns null if valid, error message if invalid
   String? _validateDateTime() {
     if (_selectedDate == null) {
       return 'Please select a date';
@@ -45,11 +61,42 @@ class _CreateEventPageState extends State<CreateEventPage> {
     return null;
   }
 
+  /// Generates a QR code image from the given data
+  /// Returns the QR code as a base64 encoded string
+  Future<String> _generateQRCode(String data) async {
+    final qrPainter = QrPainter(
+      data: data,
+      version: QrVersions.auto,
+      errorCorrectionLevel: QrErrorCorrectLevel.M,
+      gapless: true,
+    );
+
+    final recorder = ui.PictureRecorder();
+    final canvas = Canvas(recorder);
+    final size = const Size(2048, 2048);
+
+    qrPainter.paint(canvas, size);
+
+    final picture = recorder.endRecording();
+    final image = await picture.toImage(
+      size.width.toInt(),
+      size.height.toInt(),
+    );
+    final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    return base64Encode(byteData!.buffer.asUint8List());
+  }
+
+  /// Handles form submission
+  /// Creates event in Firebase and generates QR code
   void _submitForm() async {
     if (_formKey.currentState!.validate() && _validateDateTime() == null) {
       try {
         final now = DateTime.now();
-        await FirebaseFirestore.instance.collection('events').add({
+        final eventId =
+            FirebaseFirestore.instance.collection('events').doc().id;
+
+        // Prepare event data
+        final eventData = {
           'name': _nameController.text.trim(),
           'subTitle': _subTitleController.text.trim(),
           'date': _selectedDate!.toIso8601String().split('T').first,
@@ -58,10 +105,33 @@ class _CreateEventPageState extends State<CreateEventPage> {
           'isOwner': true,
           'createdAt': now.toIso8601String(),
           'updatedAt': now.toIso8601String(),
+          'eventId': eventId,
+        };
+
+        // Generate QR code data
+        final qrData = jsonEncode({
+          'name': _nameController.text.trim(),
+          'subTitle': _subTitleController.text.trim(),
+          'date': _selectedDate!.toIso8601String().split('T').first,
+          'time': _selectedTime!.format(context),
+          'budget': double.parse(_budgetController.text),
+          'eventId': eventId,
         });
 
+        // Generate QR code image
+        final qrBase64 = await _generateQRCode(qrData);
+        eventData['qrCode'] = qrBase64;
+
+        // Save to Firebase
+        await FirebaseFirestore.instance
+            .collection('events')
+            .doc(eventId)
+            .set(eventData);
+
         if (mounted) {
+          // Navigate to events page
           Navigator.pop(context);
+          MainScaffold.of(context)?.navigateToTab(2);
         }
       } catch (e) {
         ScaffoldMessenger.of(
@@ -69,6 +139,71 @@ class _CreateEventPageState extends State<CreateEventPage> {
         ).showSnackBar(SnackBar(content: Text('Error creating event: $e')));
       }
     }
+  }
+
+  /// Builds the date picker field
+  Widget _buildDateField() {
+    return Expanded(
+      child: GestureDetector(
+        onTap: () async {
+          final date = await showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(2000),
+            lastDate: DateTime(2100),
+          );
+          if (date != null) {
+            setState(() => _selectedDate = date);
+          }
+        },
+        child: AbsorbPointer(
+          child: TextFormField(
+            decoration: const InputDecoration(
+              labelText: 'Date',
+              border: OutlineInputBorder(),
+              suffixIcon: Icon(Icons.calendar_today),
+            ),
+            controller: TextEditingController(
+              text:
+                  _selectedDate == null
+                      ? ''
+                      : '${_selectedDate!.month}/${_selectedDate!.day}/${_selectedDate!.year}',
+            ),
+            validator: (_) => _validateDateTime(),
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// Builds the time picker field
+  Widget _buildTimeField() {
+    return Expanded(
+      child: GestureDetector(
+        onTap: () async {
+          final time = await showTimePicker(
+            context: context,
+            initialTime: TimeOfDay.now(),
+          );
+          if (time != null) {
+            setState(() => _selectedTime = time);
+          }
+        },
+        child: AbsorbPointer(
+          child: TextFormField(
+            decoration: const InputDecoration(
+              labelText: 'Time',
+              border: OutlineInputBorder(),
+              suffixIcon: Icon(Icons.access_time),
+            ),
+            controller: TextEditingController(
+              text: _selectedTime?.format(context) ?? '',
+            ),
+            validator: (_) => _validateDateTime(),
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -107,7 +242,6 @@ class _CreateEventPageState extends State<CreateEventPage> {
                 child: Column(
                   children: [
                     Image.asset("images/event-list.png", height: 120),
-
                     const SizedBox(height: 16),
                     const Text(
                       'Create a new event',
@@ -142,118 +276,36 @@ class _CreateEventPageState extends State<CreateEventPage> {
                     const SizedBox(height: 16),
                     Row(
                       children: [
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () async {
-                              final date = await showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime(2000),
-                                lastDate: DateTime(2100),
-                              );
-                              if (date != null) {
-                                setState(() => _selectedDate = date);
-                              }
-                            },
-                            child: AbsorbPointer(
-                              child: TextFormField(
-                                decoration: InputDecoration(
-                                  labelText: 'Date',
-                                  border: const OutlineInputBorder(),
-                                  suffixIcon: const Icon(Icons.calendar_today),
-                                ),
-                                controller: TextEditingController(
-                                  text:
-                                      _selectedDate == null
-                                          ? ''
-                                          : '${_selectedDate!.month}/${_selectedDate!.day}/${_selectedDate!.year}',
-                                ),
-                                validator: (_) => _validateDateTime(),
-                              ),
-                            ),
-                          ),
-                        ),
+                        _buildDateField(),
                         const SizedBox(width: 8),
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () async {
-                              final time = await showTimePicker(
-                                context: context,
-                                initialTime: TimeOfDay.now(),
-                              );
-                              if (time != null) {
-                                setState(() => _selectedTime = time);
-                              }
-                            },
-                            child: AbsorbPointer(
-                              child: TextFormField(
-                                decoration: InputDecoration(
-                                  labelText: 'Time',
-                                  border: const OutlineInputBorder(),
-                                  suffixIcon: const Icon(Icons.access_time),
-                                  hintText:
-                                      _selectedTime == null
-                                          ? ''
-                                          : _selectedTime!.format(context),
-                                ),
-                                controller: TextEditingController(
-                                  text:
-                                      _selectedTime == null
-                                          ? ''
-                                          : _selectedTime!.format(context),
-                                ),
-                                validator: (_) => _validateDateTime(),
-                              ),
-                            ),
-                          ),
-                        ),
+                        _buildTimeField(),
                       ],
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _budgetController,
-                      keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
                         labelText: 'Budget',
                         border: OutlineInputBorder(),
+                        prefixText: '\$',
                       ),
+                      keyboardType: TextInputType.number,
                       validator: _validateBudget,
                     ),
                     const SizedBox(height: 24),
                     SizedBox(
                       width: double.infinity,
-                      height: 48,
                       child: ElevatedButton(
                         onPressed: _submitForm,
                         style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(horizontal: 0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                              AppStyles.smallBorderRadius,
-                            ),
-                          ),
-                          elevation: 0,
+                          backgroundColor: AppColors.primary,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
                         ),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [
-                                AppColors.primary,
-                                AppColors.primaryDark,
-                              ],
-                            ),
-                            borderRadius: BorderRadius.circular(
-                              AppStyles.smallBorderRadius,
-                            ),
-                          ),
-                          alignment: Alignment.center,
-                          child: const Text(
-                            'CREATE',
-                            style: TextStyle(
-                              color: AppColors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
+                        child: const Text(
+                          'Create Event',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),

@@ -1,13 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../layout/entry_form_layout.dart';
-import '../../shared/styles/colors.dart';
-import '../../shared/styles/styles.dart';
-import '../category/category-page.dart';
-import '../../models/Events.dart';
-import '../../models/Categories.dart';
-import '../../models/ListItems.dart';
-import '../../shared/network/remote/firebase_operations.dart';
+import '../../exports.dart';
 
 class ChecklistEditPage extends StatefulWidget {
   final ChecklistModel checklistItem;

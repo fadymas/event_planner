@@ -1,17 +1,16 @@
-import 'package:event_planner/modules/Budget/budget_page.dart';
-import 'package:event_planner/modules/Budget/create_budget_page.dart';
-import 'package:event_planner/modules/calendar_page.dart';
-import 'package:event_planner/modules/checklist/view.dart';
-import 'package:flutter/material.dart';
+import '../exports.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import '../shared/styles/colors.dart';
-import '../modules/Events/events_page.dart';
+import 'package:event_planner/modules/Budget/create_budget_page.dart';
+import 'package:event_planner/modules/checklist/view.dart';
 import '../modules/home_page.dart';
 import '../modules/Events/create_event_page.dart';
-import '../shared/styles/styles.dart';
 
 class MainScaffold extends StatefulWidget {
   const MainScaffold({Key? key}) : super(key: key);
+
+  static MainScaffoldState? of(BuildContext context) {
+    return context.findAncestorStateOfType<MainScaffoldState>();
+  }
 
   @override
   State<MainScaffold> createState() => MainScaffoldState();
@@ -28,14 +27,59 @@ class MainScaffoldState extends State<MainScaffold> {
     });
   }
 
-  void onDetect(BarcodeCapture capture) {
-    final barcode = capture.barcodes.first;
-    print('QR Code scanned: \\${barcode.rawValue}');
-    controller.stop();
-    setState(() {
-      isScanning = false;
-    });
-    Navigator.pop(context);
+  void navigateToTab(int index) {
+    setSelectedIndex(index);
+  }
+
+  Future<void> onDetect(BarcodeCapture capture) async {
+    try {
+      final barcode = capture.barcodes.first;
+      if (barcode.rawValue == null) return;
+
+      print('QR Code scanned: ${barcode.rawValue}');
+      controller.stop();
+      setState(() {
+        isScanning = false;
+      });
+
+      // Parse QR code data
+      final Map<String, dynamic> data = jsonDecode(barcode.rawValue!);
+      final now = DateTime.now();
+
+      // Create a new event with isOwner set to false, preserving all other data types
+      await FirebaseFirestore.instance.collection('events').add({
+        'name': data['name'],
+        'subTitle': data['subTitle'],
+        'date': data['date'],
+        'time': data['time'],
+        'budget': data['budget'],
+        'isOwner': false,
+        'createdAt': now.toIso8601String(),
+        'updatedAt': now.toIso8601String(),
+        'eventId': data['eventId'],
+        'qrCode': data['qrCode'],
+      });
+
+      if (mounted) {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Successfully joined the event!'),
+            backgroundColor: Colors.green,
+          ),
+        );
+      }
+    } catch (e) {
+      print('Error processing QR code: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error joining event: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 
   final GlobalKey<ChecklistPageState> _checklistKey =

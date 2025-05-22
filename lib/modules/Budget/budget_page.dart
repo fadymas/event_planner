@@ -1,13 +1,5 @@
-import 'package:event_planner/models/Categories.dart';
-import 'package:event_planner/models/Budgets.dart';
-import 'package:flutter/material.dart';
-import '../../shared/styles/colors.dart';
-import '../../shared/styles/styles.dart';
-import '../../shared/components/components.dart';
-import '../../shared/network/remote/firebase_operations.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../exports.dart';
 import 'budget_details_page.dart';
-import 'edit_budget_page.dart';
 
 class BudgetPage extends StatefulWidget {
   const BudgetPage({Key? key}) : super(key: key);

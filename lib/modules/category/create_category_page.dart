@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import '../../layout/entry_form_layout.dart';
-import '../../shared/styles/colors.dart';
-import '../../shared/styles/styles.dart';
-import '../../shared/components/components.dart';
+import '../../exports.dart';
 
 class AddCategoryPage extends StatefulWidget {
   const AddCategoryPage({Key? key}) : super(key: key);
