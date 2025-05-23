@@ -136,7 +136,11 @@ class _SelectCategoryPageState extends State<SelectCategoryPage> {
                     }
                   },
                   child: Container(
-                    margin: EdgeInsets.only(bottom: AppStyles.smallPadding),
+                    margin: EdgeInsets.only(
+                      bottom: (AppStyles.smallPadding + 2),
+                      right: AppStyles.smallPadding,
+                      left: AppStyles.smallPadding,
+                    ),
                     child: GestureDetector(
                       onTap: () {
                         setState(() {
@@ -154,16 +158,7 @@ class _SelectCategoryPageState extends State<SelectCategoryPage> {
                           borderRadius: BorderRadius.circular(
                             AppStyles.borderRadius,
                           ),
-                          border:
-                              selectedIndex == index
-                                  ? Border.all(
-                                    color: AppColors.primary,
-                                    width: 2,
-                                  )
-                                  : Border.all(
-                                    color: Colors.transparent,
-                                    width: 2,
-                                  ),
+                          border: Border.all(color: AppColors.text, width: 1),
                         ),
                         child: Row(
                           children: [
