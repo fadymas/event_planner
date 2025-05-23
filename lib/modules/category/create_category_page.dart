@@ -1,4 +1,5 @@
 import '../../exports.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AddCategoryPage extends StatefulWidget {
   const AddCategoryPage({Key? key}) : super(key: key);
@@ -70,13 +71,32 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
         ),
       ],
       buttonText: 'ADD',
-      onSubmit: () {
+      onSubmit: () async {
         if (_nameController.text.isNotEmpty) {
-          Navigator.pop(context, {
-            'name': _nameController.text,
-            'note': _noteController.text,
-            'icon': _icons[_selectedIconIndex],
-          });
+          try {
+            // Create a new category document in Firestore
+            final docRef = await FirebaseFirestore.instance
+                .collection('categories')
+                .add({
+                  'name': _nameController.text,
+                  'note': _noteController.text,
+                  'icon': _icons[_selectedIconIndex].codePoint.toString(),
+                });
+
+            // Create the category model
+            final category = CategoryModel(
+              id: docRef.id,
+              name: _nameController.text,
+              note: _noteController.text,
+              icon: _icons[_selectedIconIndex].codePoint.toString(),
+            );
+
+            Navigator.pop(context, category);
+          } catch (e) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Error creating category: $e')),
+            );
+          }
         } else {
           ScaffoldMessenger.of(
             context,
