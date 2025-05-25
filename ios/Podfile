@@ -34,8 +34,8 @@ target 'Runner' do
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
   
   # Add Firebase pods with specific version that matches cloud_firestore
-  pod 'Firebase/Core', '10.25.0'
-  pod 'Firebase/Firestore', '10.25.0'
+  pod 'Firebase/Core', '11.11.0'
+  pod 'Firebase/Firestore', '11.11.0'
   
   target 'RunnerTests' do
     inherit! :search_paths
