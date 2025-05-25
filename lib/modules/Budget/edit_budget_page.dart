@@ -499,10 +499,14 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
       if (confirmDelete) {
         await deleteDocument('budgets', widget.budgetItem.id);
 
-        final eventRef = FirebaseFirestore.instance
-            .collection('events')
-            .doc(_selectedEvent!.id);
-        await eventRef.update({'budget': FieldValue.increment(_initialAmount)});
+        if (_selectedEvent != null) {
+          final eventRef = FirebaseFirestore.instance
+              .collection('events')
+              .doc(_selectedEvent!.id);
+          await eventRef.update({
+            'budget': FieldValue.increment(_initialAmount),
+          });
+        }
 
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Budget item deleted successfully!')),

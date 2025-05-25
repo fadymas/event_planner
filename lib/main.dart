@@ -1,7 +1,6 @@
+import 'package:event_planner/splash_screen.dart';
 import 'exports.dart';
 import 'shared/network/remote/firebase_options.dart';
-import 'layout/main_layout.dart';
-import 'shared/styles/colors.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +22,7 @@ class MyApp extends StatelessWidget {
           shape: Border(bottom: BorderSide(color: AppColors.grey, width: 1.5)),
         ),
       ),
-      home: const MainScaffold(),
+      home: SplashScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
