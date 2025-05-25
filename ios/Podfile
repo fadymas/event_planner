@@ -75,8 +75,13 @@ post_install do |installer|
       # Enhanced fix for gRPC template issues
       if target.name.include?('gRPC')
         config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= '$(inherited)'
-        config.build_settings['OTHER_CFLAGS'] = '$(inherited) -fno-inline -Wno-shorten-64-to-32 -Wno-comma -Wno-unreachable-code -Wno-conditional-uninitialized -Wno-deprecated-declarations -Wno-semicolon-before-method-body -Wno-unused-variable -Wno-format -Wno-missing-field-initializers -Wno-sign-conversion -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-bool-conversion -Wno-enum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wno-shorten-64-to-32 -Wno-newline-eof'
+        config.build_settings['OTHER_CFLAGS'] = '$(inherited) -fno-inline -Wno-shorten-64-to-32 -Wno-comma -Wno-unreachable-code -Wno-conditional-uninitialized -Wno-deprecated-declarations -Wno-semicolon-before-method-body -Wno-unused-variable -Wno-format -Wno-missing-field-initializers -Wno-sign-conversion -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-bool-conversion -Wno-enum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wno-shorten-64-to-32 -Wno-newline-eof -Wno-template-keyword'
         config.build_settings.delete('OTHER_CFLAGS') if config.build_settings['OTHER_CFLAGS']&.include?('-G')
+        
+        # Additional settings for template issues
+        config.build_settings['CLANG_WARN_STRICT_PROTOTYPES'] = 'NO'
+        config.build_settings['CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF'] = 'NO'
+        config.build_settings['CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER'] = 'NO'
       end
     end
   end
