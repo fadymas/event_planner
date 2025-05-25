@@ -1,10 +1,16 @@
 import 'package:event_planner/splash_screen.dart';
 import 'exports.dart';
 import 'shared/network/remote/firebase_options.dart';
+import 'shared/network/remote/notification_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  // Initialize notifications
+  final notificationService = NotificationService();
+  await notificationService.initNotification();
+
   runApp(const MyApp());
 }
 

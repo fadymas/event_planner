@@ -1,6 +1,7 @@
 import '../../exports.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'dart:ui' as ui;
+import '../../shared/network/remote/notification_service.dart';
 
 /// A page for creating new events with form validation and QR code generation.
 ///
@@ -27,6 +28,9 @@ class _CreateEventPageState extends State<CreateEventPage> {
   // Selected date and time
   DateTime? _selectedDate;
   TimeOfDay? _selectedTime;
+
+  // Notification service
+  final NotificationService _notificationService = NotificationService();
 
   /// Validates the event name
   /// Returns null if valid, error message if invalid
@@ -95,6 +99,31 @@ class _CreateEventPageState extends State<CreateEventPage> {
         final eventId =
             FirebaseFirestore.instance.collection('events').doc().id;
 
+        // Parse event date and time
+        final eventDate = _selectedDate!;
+        final timeParts = _selectedTime!.format(context).split(':');
+        int hour = int.parse(timeParts[0]);
+        final minute = int.parse(timeParts[1].split(' ')[0]);
+
+        if (_selectedTime!.format(context).toLowerCase().contains('pm') &&
+            hour != 12) {
+          hour += 12;
+        } else if (_selectedTime!
+                .format(context)
+                .toLowerCase()
+                .contains('am') &&
+            hour == 12) {
+          hour = 0;
+        }
+
+        final eventDateTime = DateTime(
+          eventDate.year,
+          eventDate.month,
+          eventDate.day,
+          hour,
+          minute,
+        );
+
         // Prepare event data
         final eventData = {
           'name': _nameController.text.trim(),
@@ -127,6 +156,13 @@ class _CreateEventPageState extends State<CreateEventPage> {
             .collection('events')
             .doc(eventId)
             .set(eventData);
+
+        // Schedule notification
+        await _notificationService.scheduleEventNotification(
+          eventId: eventId,
+          eventName: _nameController.text.trim(),
+          eventDateTime: eventDateTime,
+        );
 
         if (mounted) {
           // Navigate to events page

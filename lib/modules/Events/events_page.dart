@@ -1,6 +1,7 @@
 import '../../exports.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import '../../shared/components/event_qr_dialog.dart';
+import '../../shared/network/remote/notification_service.dart';
 
 class EventsPage extends StatefulWidget {
   const EventsPage({Key? key}) : super(key: key);
@@ -86,6 +87,12 @@ class EventsPageState extends State<EventsPage> {
                   .get();
 
           if (querySnapshot.docs.isNotEmpty) {
+            final eventId = querySnapshot.docs.first.id;
+
+            // Cancel the notification
+            final notificationService = NotificationService();
+            await notificationService.cancelEventNotification(eventId);
+
             // Delete the event
             await querySnapshot.docs.first.reference.delete();
 
